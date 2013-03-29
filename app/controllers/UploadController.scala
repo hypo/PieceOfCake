@@ -65,6 +65,29 @@ object UploadController extends Controller {
     Ok("sha1 is: " + sha1)
   }
  
+  def getHash(hash: String) = Action { request ⇒
+    val pureHash = hash.split('/').mkString.replaceAll("\\.[^.]*$", "")
+    val contentType = hash.split('.').last.toLowerCase match {
+      case "png" => "image/png"
+      case "pdf" => "application/pdf"
+      case "jpg" => "image/jpeg"
+      case _ => BINARY
+    }
+
+    filePathForHash(pureHash).map(path ⇒ {
+      val file = new File(path)
+
+      if (file.exists && file.isFile) {
+        val fileData = Enumerator.fromFile(file)        
+
+        SimpleResult(header = ResponseHeader(OK, Map(CONTENT_LENGTH -> file.length.toString, CONTENT_TYPE -> contentType)), fileData)
+      } else {
+        NotFound
+      }
+
+    }).getOrElse(NotFound)
+  }
+
   def upload = Action(sha1FileParser) { request ⇒
     val (sha1: String, file: File) = request.body
     Logger.info("file: " + file)
