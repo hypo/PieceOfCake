@@ -42,13 +42,16 @@ object UploadController extends Controller {
     filePathForHash(hash).map(path ⇒ {
       val targetFile = new File(path)
       if (targetFile.exists) 
-        Done[Array[Byte], Either[Result, (String, File)]](Left(Ok("Already uploaded")), Input.Empty)
+        Done[Array[Byte], Either[Result, (String, File)]](Left(Ok(Json.toJson(
+          Map("sha1" -> Json.toJson(hash), 
+              "path" -> Json.toJson(s"/upload/$hash"), 
+              "uploaded" -> Json.toJson(true))))), Input.Empty)
       else {
         sha1FileParser(header).map({
           case Right((sha1, file)) ⇒ {
             if (sha1.equalsIgnoreCase(hash)) {
               file.delete
-              Left(PreconditionFailed("sha-1 doesn't match"))
+              Left(PreconditionFailed(Json.toJson(Map("error" -> "sha-1 doesn't match"))))
             } else {
               Files.moveFile(file, targetFile)
               Right((sha1, targetFile))
@@ -57,7 +60,7 @@ object UploadController extends Controller {
           case result ⇒ result
         })
       }
-    }).getOrElse(Done[Array[Byte], Either[Result, (String, File)]](Left(NotFound(s"$hash is not valid")), Input.Empty))
+    }).getOrElse(Done[Array[Byte], Either[Result, (String, File)]](Left(NotFound(Json.toJson(Map("error" -> s"$hash is not valid")))), Input.Empty))
   )
 
   def uploadToHash(hash: String) = Action(sha1FileParserCheckHash(hash)) { request ⇒
