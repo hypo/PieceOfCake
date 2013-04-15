@@ -49,7 +49,8 @@ object UploadController extends Controller {
       else {
         sha1FileParser(header).map({
           case Right((sha1, file)) ⇒ {
-            if (sha1.equalsIgnoreCase(hash)) {
+            if (!sha1.equalsIgnoreCase(hash)) {
+              Logger.info(s"sha1: $sha1 != hash: $hash")
               file.delete
               Left(PreconditionFailed(Json.toJson(Map("error" -> "sha-1 doesn't match"))))
             } else {
