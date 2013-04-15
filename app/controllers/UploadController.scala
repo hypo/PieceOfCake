@@ -62,7 +62,7 @@ object UploadController extends Controller {
 
   def uploadToHash(hash: String) = Action(sha1FileParserCheckHash(hash)) { request ⇒
     val (sha1: String, file: File) = request.body
-    Ok("sha1 is: " + sha1)
+    Ok(s"""{"sha1":"$sha1", "path":"/uploads/$sha1"}""")
   }
  
   def getHash(hash: String) = Action { request ⇒
@@ -94,6 +94,6 @@ object UploadController extends Controller {
     filePathForHash(sha1).foreach(path ⇒ {
       Files.moveFile(file, new File(path))
     })
-    Ok("sha1 is: " + sha1)
+    Ok(s"""{"sha1":"$sha1", "path":"/upload/$sha1"}""")
   }
 }
