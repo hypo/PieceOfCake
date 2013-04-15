@@ -7,8 +7,8 @@ import play.api.libs.Files
 import play.api.libs.Files._
 import java.io._
 import java.security._
-
- import play.api.Play.current
+import play.api.libs.json._
+import play.api.Play.current
 
 object UploadController extends Controller {
 
@@ -62,7 +62,7 @@ object UploadController extends Controller {
 
   def uploadToHash(hash: String) = Action(sha1FileParserCheckHash(hash)) { request ⇒
     val (sha1: String, file: File) = request.body
-    Ok(s"""{"sha1":"$sha1", "path":"/uploads/$sha1"}""")
+    Ok(Json.toJson(Map("sha1" -> sha1, "path" -> s"/upload/$sha1")))
   }
  
   def getHash(hash: String) = Action { request ⇒
@@ -94,6 +94,6 @@ object UploadController extends Controller {
     filePathForHash(sha1).foreach(path ⇒ {
       Files.moveFile(file, new File(path))
     })
-    Ok(s"""{"sha1":"$sha1", "path":"/upload/$sha1"}""")
+    Ok(Json.toJson(Map("sha1" -> sha1, "path" -> s"/upload/$sha1")))
   }
 }
