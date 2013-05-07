@@ -8,6 +8,7 @@ import play.api.libs.json._
 import play.api.db.DB
 import play.api._
 import play.api.Play.current
+import play.api.mvc._
 
 import scala.slick.driver.PostgresDriver.simple._
 import scala.slick.jdbc.{GetResult, StaticQuery => Q}
@@ -82,9 +83,9 @@ class CreatePieceSpec extends Specification with RequestMaker {
   ]
 }
 """
-
-  val badJsonFormatRequest = localJsonRequest(POST, "/piece", "{")
-  val formatInvalidRequest = localJsonRequest(POST, "/piece", """{"data":[]}""")
+  
+  val badJsonFormatRequest = localRequest(POST, "/piece", "{")
+  val formatInvalidRequest = FakeRequest(POST, "/piece").withBody(Json.parse("""{"data":[]}""")).withHeaders("Content-Type"->"application/json")
   val successRequest = FakeRequest(POST, "/piece").withBody(Json.parse(exampleJson)).withHeaders("Content-Type"->"application/json")
 
   "Create Piece" should {

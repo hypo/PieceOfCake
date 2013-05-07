@@ -80,4 +80,9 @@ object Pieces extends Table[Piece]("piece") {
     
     (p: Piece) ⇒ Some((p.id, p.pieceType, Json.stringify(Json.toJson(p.sheets.map(Json.toJson[PieceOfSheet]))), p.createdAt, p.token))
   )
+
+  def forInsert = pieceType ~ jsonData ~ createdAt ~ token <> (
+    (pieceType, jsonData, createdAt, token) ⇒ Piece(None, pieceType, Json.fromJson[List[PieceOfSheet]](Json.parse(jsonData)).get, createdAt, token),
+    (p: Piece) ⇒ Some((p.pieceType, Json.stringify(Json.toJson(p.sheets.map(Json.toJson[PieceOfSheet]))), p.createdAt, p.token))
+  )
 }

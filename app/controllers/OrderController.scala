@@ -11,6 +11,11 @@ import models.PieceJsonReaders._
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.slick.driver.PostgresDriver.simple._
+import scala.slick.jdbc.{GetResult, StaticQuery => Q}
+import scala.slick.lifted._
+import Q.interpolation
+import Database.threadLocalSession
 
 object OrderController extends Controller {
   import scala.slick.driver.PostgresDriver.simple._
@@ -27,6 +32,9 @@ object OrderController extends Controller {
       },
       (piece: Piece) ⇒ Async { /* Success */
         future {
+          db withSession {
+            Pieces.forInsert.insert(piece)
+          }
           Ok(Json.obj("token" -> piece.token))
         }
       }
