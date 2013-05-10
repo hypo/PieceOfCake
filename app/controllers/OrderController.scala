@@ -41,7 +41,16 @@ object OrderController extends Controller {
     )
   }
   
-  def showOrder(orderNumber: String) = Action {
-    Ok("")
+  def showOrder(orderNumber: String) = Action { implicit request =>
+    Async {
+      future {
+        db withSession {
+          val q = for (p <- Pieces if p.token === orderNumber) yield p
+          q.firstOption.map(p =>
+            Ok(views.html.order(p))
+          ).getOrElse(NotFound("Order Not Found"))
+        }
+      }
+    }
   }
 }

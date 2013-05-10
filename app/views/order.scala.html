@@ -1,0 +1,26 @@
+@(piece: models.Piece)
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pieces</title>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+  </head>
+    <body>
+      <h2>Your order:</h2>
+      <h3>@piece.pieceType</h3>
+
+@for(sheet <- piece.sheets) {
+  <h4>x @sheet.qty</h4>
+  <ul>
+    @for(photo <- sheet.photos) {
+      <li><img src="@photo.url"></li>
+    }
+  </ul>
+  <hr>
+}
+
+    </body>
+</html>
