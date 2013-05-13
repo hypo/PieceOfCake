@@ -1,0 +1,21 @@
+@(pieces: Seq[models.Piece])
+
+@main("Pieces") {
+
+@for(p <- pieces) {
+<div class="pieces">
+  <div class="detail_link">
+    <a href="@routes.OrderController.showOrder(p.token)">View</a>
+
+  </div>
+  @for(sheet <- p.sheets) {
+    <div class="sheet">
+      <div class="qty">×@sheet.qty</div>
+      @for(photo <- sheet.photos) {
+        <img src="@photo.url" class="pieces_photo">
+      }
+    </div>
+  }
+</div>
+}
+}

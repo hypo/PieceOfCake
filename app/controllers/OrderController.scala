@@ -53,4 +53,15 @@ object OrderController extends Controller {
       }
     }
   }
+
+  def list = Action { implicit request =>
+    Async {
+      future {
+        db withSession {
+          val q = Query(Pieces)
+          Ok(views.html.list(q.list))
+        }
+      }
+    }
+  }
 }
