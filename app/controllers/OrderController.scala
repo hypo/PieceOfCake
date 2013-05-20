@@ -54,6 +54,19 @@ object OrderController extends Controller {
     }
   }
 
+  def showPCD(orderNumber: String) = Action { implicit request =>
+    Async {
+      future {
+        db withSession {
+          val q = for (p <- Pieces if p.token === orderNumber) yield p
+          q.firstOption.map(p =>
+            Ok(p.sheets.map(s => (s.pcdString + "\n") * s.qty).mkString("#############\n"))
+          ).getOrElse(NotFound("Order Not Found"))
+        }
+      }
+    }
+  }
+
   def list = Action { implicit request =>
     Async {
       future {

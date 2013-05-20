@@ -53,7 +53,19 @@ object PieceJsonWriters {
 }
 
 case class Photo(source: String, url: String)
-case class PieceOfSheet(qty: Int, photos: List[Photo])
+case class PieceOfSheet(qty: Int, photos: List[Photo]) {
+  def pcdString: String = 
+s"""
+beginpdf 340.15748 510.23622 # 12cm x 18cm
+${
+  photos.zipWithIndex.take(6).map({ case (p, idx) => 
+    s"simpleimage ${p.url} ${((idx % 2) * 6.0 + 0.2) * 28.3464567} ${((2 - idx / 2) *  6.0 + 0.2) * 28.3464567} 158.740157 158.740157"
+  }).mkString("\n")
+}
+endpdf file:///tmp/piece.pdf
+"""  
+}
+
 case class Piece( id: Option[Int], 
                   pieceType: String,
                   sheets: List[PieceOfSheet], 

@@ -11,6 +11,7 @@ POST    /upload                     controllers.UploadController.upload
 
 POST    /piece                      controllers.OrderController.makeOrder
 GET     /piece/list                 controllers.OrderController.list
+GET     /piece/:orderNumber.pcd     controllers.OrderController.showPCD(orderNumber)
 GET     /piece/:orderNumber         controllers.OrderController.showOrder(orderNumber)
 
 # Map static resources from the /public folder to the /assets URL path
