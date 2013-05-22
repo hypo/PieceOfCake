@@ -59,7 +59,7 @@ s"""
 beginpdf 340.15748 510.23622 # 12cm x 18cm
 ${
   photos.zipWithIndex.take(6).map({ case (p, idx) => 
-    s"simpleimage ${p.url} ${((idx % 2) * 6.0 + 0.2) * 28.3464567} ${((2 - idx / 2) *  6.0 + 0.2) * 28.3464567} 158.740157 158.740157"
+    s"simpleimage ${p.url} ${(idx % 2) * 6.0 * 28.3464567} ${(2 - idx / 2) *  6.0 * 28.3464567} ${6.0 * 28.3464567} ${6.0 * 28.3464567}"
   }).mkString("\n")
 }
 endpdf file:///tmp/piece.pdf
