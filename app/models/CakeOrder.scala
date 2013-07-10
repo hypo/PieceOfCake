@@ -76,12 +76,12 @@ case class Piece( id: Option[Int],
     this(id, pieceType, sheets, new Timestamp(new java.util.Date().getTime), java.util.UUID.randomUUID.toString)
 }
 
-object Pieces extends Table[Piece]("PIECE") {
-  def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
-  def pieceType = column[String]("TYPE")
-  def jsonData = column[String]("JSON_DATA")
-  def createdAt = column[Timestamp]("CREATED_AT")
-  def token = column[String]("TOKEN")
+object Pieces extends Table[Piece]("piece") {
+  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+  def pieceType = column[String]("type")
+  def jsonData = column[String]("json_data")
+  def createdAt = column[Timestamp]("created_at")
+  def token = column[String]("token")
 
   import PieceJsonReaders._
   import PieceJsonWriters._
