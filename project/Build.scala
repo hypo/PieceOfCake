@@ -9,9 +9,11 @@ object ApplicationBuild extends Build {
 
     val appDependencies = Seq(
       jdbc,
-      "com.typesafe.slick" % "slick_2.10" % "1.0.0",
+      "com.typesafe.slick" % "slick_2.10" % "1.0.1",
       "postgresql" % "postgresql" % "9.2-1002.jdbc4"
     )
+
+    scalaVersion := "2.10.2"
 
     val main = play.Project(appName, appVersion, appDependencies).settings(
       resolvers ++= Seq(

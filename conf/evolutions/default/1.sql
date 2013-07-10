@@ -3,7 +3,7 @@
 # --- !Ups
 
 create table piece(
-  id            bigserial,
+  id            serial,
   type          varchar(32) not null,
   json_data     text not null,
   created_at    timestamp not null,
