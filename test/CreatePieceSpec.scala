@@ -90,19 +90,19 @@ class CreatePieceSpec extends Specification with RequestMaker {
 
   "Create Piece" should {
     "return '400 Bad Request' if the request body is not a json" in 
-    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL")))) {
+    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL", "DATABASE_TO_UPPER" -> "false")))) {
       val badrequest = route(badJsonFormatRequest).get      
       status(badrequest) must equalTo(BAD_REQUEST)
     }
     
     "return 400 Bad Request if the json miss some fields" in 
-    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL")))) {
+    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL", "DATABASE_TO_UPPER" -> "false")))) {
       val formatInvalid = route(formatInvalidRequest).get
       status(formatInvalid) must equalTo(BAD_REQUEST)
     }
 
     "return a token if the request body is a valid piece json" in 
-    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL")))) {
+    running(FakeApplication(additionalConfiguration = inMemoryDatabase(options=Map("MODE"->"PostgreSQL", "DATABASE_TO_UPPER" -> "false")))) {
       val success = route(successRequest).get
       status(success) must equalTo(OK)
       val json = Json.parse(contentAsString(success))
