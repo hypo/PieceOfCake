@@ -3,16 +3,17 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                                   controllers.Application.index
 
-GET     /upload/:hash               controllers.UploadController.getHash(hash)
-POST    /upload/:hash               controllers.UploadController.uploadToHash(hash)
-POST    /upload                     controllers.UploadController.upload
+GET     /upload/:hash                       controllers.UploadController.getHash(hash)
+POST    /upload/:hash                       controllers.UploadController.uploadToHash(hash)
+POST    /upload                             controllers.UploadController.upload
 
-POST    /piece                      controllers.OrderController.makeOrder
-GET     /piece/list                 controllers.OrderController.list
-GET     /piece/:orderNumber.pcd     controllers.OrderController.showPCD(orderNumber)
-GET     /piece/:orderNumber         controllers.OrderController.showOrder(orderNumber)
+POST    /piece                              controllers.OrderController.makeOrder
+GET     /piece/list                         controllers.OrderController.list
+GET     /piece/:orderNumber.pcd             controllers.OrderController.showPCD(orderNumber)
+GET     /piece/:orderNumber                 controllers.OrderController.showOrder(orderNumber)
+POST    /piece/:orderNumber/ship            controllers.OrderController.saveAddress(orderNumber)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -1,4 +1,4 @@
-@(piece: models.Piece)
+@(piece: models.Piece, form: Form[(String, String)])
 
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,7 @@
     <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
   </head>
     <body>
-      <span class="thank_you">感謝您的訂購</span>
+      <span class="thank_you">Thanks for your ordering.</span>
       <span class="p_type">@piece.pieceType</span>
 
 @for(sheet <- piece.sheets) {
@@ -20,9 +20,19 @@
   @for(photo <- sheet.photos) {
     <img src="@photo.url">
   }
-
 </div>
 }
+        <h3>Shipping To:</h3>
+  @helper.form(action = routes.OrderController.saveAddress(piece.token)) {
+      @helper.inputText(form("name"))
 
-    </body>
+      @helper.inputText(form("address"))
+
+      <button>Save</button>
+  }
+
+ <p>* Every Pieces will be made in 5 business days, free worldwide shipping!</p>
+
+
+          </body>
 </html>

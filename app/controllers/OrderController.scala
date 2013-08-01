@@ -5,7 +5,9 @@ import models._
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
-
+import play.api.data._
+import play.api.data.Forms._
+import play.api.data.validation.Constraints._
 import models.PieceJsonReaders._
 
 import scala.concurrent._
@@ -24,6 +26,25 @@ object OrderController extends Controller {
   
   lazy val db = Database.forDataSource(DB.getDataSource())
 
+  val orderForm = Form(tuple("name" -> text.verifying(nonEmpty), "address" -> text.verifying(nonEmpty)))
+
+  def saveAddress(orderNumber: String) = Action { implicit request =>
+    Async {
+      future {
+        db withSession {
+          val q = for (p <- Pieces if p.token === orderNumber) yield p
+          q.firstOption.map(p => {
+            val (name, address) = orderForm.bindFromRequest.get
+            Logger.info(s"Receive: $name, $address")
+            Ok(views.html.order(p, orderForm))
+          }).getOrElse(
+            NotFound("Order Not Found")
+          )
+        }
+      }
+    }
+  }
+
   def makeOrder = Action(parse.json(maxLength = 2 * 1024 * 1024)) { request =>
     Logger.info("receive: " + request.body)
     Json.fromJson[Piece](request.body).fold(
@@ -40,14 +61,14 @@ object OrderController extends Controller {
       }
     )
   }
-  
+
   def showOrder(orderNumber: String) = Action { implicit request =>
     Async {
       future {
         db withSession {
           val q = for (p <- Pieces if p.token === orderNumber) yield p
           q.firstOption.map(p =>
-            Ok(views.html.order(p))
+            Ok(views.html.order(p, orderForm))
           ).getOrElse(NotFound("Order Not Found"))
         }
       }

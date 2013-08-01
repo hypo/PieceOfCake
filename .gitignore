@@ -7,3 +7,5 @@ tmp
 *~
 uploads
 conf/application.conf
+.idea
+.idea_modules
