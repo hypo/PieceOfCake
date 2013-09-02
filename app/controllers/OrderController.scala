@@ -34,9 +34,18 @@ object OrderController extends Controller {
         db withSession {
           val q = for (p <- Pieces if p.token === orderNumber) yield p
           q.firstOption.map(p => {
-            val (name, address) = orderForm.bindFromRequest.get
-            Logger.info(s"Receive: $name, $address")
-            Ok(views.html.order(p, orderForm))
+            orderForm.bindFromRequest.fold(
+              formWithErrors => {
+                Logger.info("error: " + formWithErrors.errorsAsJson)
+                BadRequest(formWithErrors.errorsAsJson)
+              }, 
+              value => {
+                val (name, address) = value
+                Logger.info(s"Receive: $name, $address")
+                Ok(views.html.order(p, orderForm))
+              }
+            )
+            
           }).getOrElse(
             NotFound("Order Not Found")
           )
