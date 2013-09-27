@@ -11,6 +11,7 @@ import play.api.libs.json._
 import play.api.Play.current
 
 object UploadController extends Controller {
+  import scala.concurrent.ExecutionContext.Implicits.global
 
   def relativePathForHash(hash: String): Option[String] = {
     if (hash.length < 40) 
@@ -30,7 +31,7 @@ object UploadController extends Controller {
         md.update(data)
         os.write(data)
         (md, os)
-    } mapDone { 
+    } map { 
       case (md, os) ⇒
         os.close
         val sha1 = md.digest.map("%02x".format(_)).mkString
@@ -42,7 +43,7 @@ object UploadController extends Controller {
     filePathForHash(hash).map(path ⇒ {
       val targetFile = new File(path)
       if (targetFile.exists) 
-        Done[Array[Byte], Either[Result, (String, File)]](Left(Ok(Json.toJson(
+        Done[Array[Byte], Either[SimpleResult, (String, File)]](Left(Ok(Json.toJson(
           Map("sha1" -> Json.toJson(hash), 
               "path" -> Json.toJson(s"/upload/$hash"), 
               "uploaded" -> Json.toJson(true))))), Input.Empty)
@@ -61,7 +62,7 @@ object UploadController extends Controller {
           case result ⇒ result
         })
       }
-    }).getOrElse(Done[Array[Byte], Either[Result, (String, File)]](Left(NotFound(Json.toJson(Map("error" -> s"$hash is not valid")))), Input.Empty))
+    }).getOrElse(Done[Array[Byte], Either[SimpleResult, (String, File)]](Left(NotFound(Json.toJson(Map("error" -> s"$hash is not valid")))), Input.Empty))
   )
 
   def uploadToHash(hash: String) = Action(sha1FileParserCheckHash(hash)) { request ⇒
@@ -84,7 +85,7 @@ object UploadController extends Controller {
       if (file.exists && file.isFile) {
         val fileData = Enumerator.fromFile(file)        
 
-        SimpleResult(header = ResponseHeader(OK, Map(CONTENT_LENGTH -> file.length.toString, CONTENT_TYPE -> contentType)), fileData)
+        SimpleResult(header = ResponseHeader(OK, Map(CONTENT_LENGTH -> file.length.toString, CONTENT_TYPE -> contentType)), body = fileData)
       } else {
         NotFound
       }

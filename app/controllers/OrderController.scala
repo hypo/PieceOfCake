@@ -28,28 +28,25 @@ object OrderController extends Controller {
 
   val orderForm = Form(tuple("name" -> text.verifying(nonEmpty), "address" -> text.verifying(nonEmpty)))
 
-  def saveAddress(orderNumber: String) = Action { implicit request =>
-    Async {
-      future {
-        db withSession {
-          val q = for (p <- Pieces if p.token === orderNumber) yield p
-          q.firstOption.map(p => {
-            orderForm.bindFromRequest.fold(
-              formWithErrors => {
-                Logger.info("error: " + formWithErrors.errorsAsJson)
-                BadRequest(formWithErrors.errorsAsJson)
-              }, 
-              value => {
-                val (name, address) = value
-                Logger.info(s"Receive: $name, $address")
-                Ok(views.html.order(p, orderForm))
-              }
-            )
-            
-          }).getOrElse(
-            NotFound("Order Not Found")
-          )
-        }
+  def saveAddress(orderNumber: String) = Action.async { implicit request =>
+    future {
+      db withSession {
+        val q = for (p <- Pieces if p.token === orderNumber) yield p
+        q.firstOption.map(p => {
+          orderForm.bindFromRequest.fold(
+            formWithErrors => {
+              Logger.info("error: " + formWithErrors.errorsAsJson)
+              BadRequest(formWithErrors.errorsAsJson)
+            }, 
+            value => {
+              val (name, address) = value
+              Logger.info(s"Receive: $name, $address")
+              Ok(views.html.order(p, orderForm))
+            }
+          )            
+        }).getOrElse(
+          NotFound(Json.obj("error" -> "Pieces Not Found"))
+        )
       }
     }
   }
@@ -71,39 +68,35 @@ object OrderController extends Controller {
     )
   }
 
-  def showOrder(orderNumber: String) = Action { implicit request =>
-    Async {
-      future {
-        db withSession {
-          val q = for (p <- Pieces if p.token === orderNumber) yield p
-          q.firstOption.map(p =>
-            Ok(views.html.order(p, orderForm))
-          ).getOrElse(NotFound("Order Not Found"))
-        }
+  def showOrder(orderNumber: String) = Action.async { implicit request =>
+    future {
+      db withSession {
+        val q = for (p <- Pieces if p.token === orderNumber) yield p
+        q.firstOption.map(p =>
+          Ok(views.html.order(p, orderForm))
+        ).getOrElse(
+          NotFound("Not Found!")
+        )
       }
     }
   }
 
-  def showPCD(orderNumber: String) = Action { implicit request =>
-    Async {
-      future {
-        db withSession {
-          val q = for (p <- Pieces if p.token === orderNumber) yield p
-          q.firstOption.map(p =>
-            Ok(p.sheets.map(s => (s.pcdString + "\n") * s.qty).mkString("#############\n"))
-          ).getOrElse(NotFound("Order Not Found"))
-        }
+  def showPCD(orderNumber: String) = Action.async { implicit request =>
+    future {
+      db withSession {
+        val q = for (p <- Pieces if p.token === orderNumber) yield p
+        q.firstOption.map(p =>
+          Ok(p.sheets.map(s => (s.pcdString + "\n") * s.qty).mkString("#############\n"))
+        ).getOrElse(NotFound("Order Not Found"))
       }
     }
   }
 
-  def list = Action { implicit request =>
-    Async {
-      future {
-        db withSession {
-          val q = Query(Pieces)
-          Ok(views.html.list(q.list))
-        }
+  def list = Action.async { implicit request =>
+    future {
+      db withSession {
+        val q = Query(Pieces)
+        Ok(views.html.list(q.list))
       }
     }
   }
