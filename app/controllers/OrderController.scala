@@ -51,7 +51,7 @@ object OrderController extends Controller {
     }
   }
 
-  def makeOrder = Action(parse.json(maxLength = 2 * 1024 * 1024)) { request =>
+  def makeOrder = Action(parse.tolerantJson(maxLength = 2 * 1024 * 1024)) { request =>
     Logger.info("receive: " + request.body)
     Json.fromJson[Piece](request.body).fold(
       error ⇒ {
