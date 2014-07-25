@@ -1,0 +1,26 @@
+{
+  "name": "PieceOfCake",
+  "version": "0.0.0",
+  "homepage": "https://github.com/hypo/PieceOfCake",
+  "authors": [
+    "Zero Cho <itszero@gmail.com>"
+  ],
+  "license": "Proprietary",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "es5-shim": "2.0.0",
+    "jquery": ">=1.8.0",
+    "ligature-symbols": "*",
+    "coffee-script": "https://raw.github.com/jashkenas/coffee-script/1.6.2/extras/coffee-script.js",
+    "purl": "~2.3.1",
+    "react": "~0.10.0",
+    "reset-css": "~2.0.20110126"
+  }
+}

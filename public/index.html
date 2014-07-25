@@ -1,0 +1,44 @@
+<!DOCTYPE html5>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes" />
+
+    <link href="/bower_components/reset-css/reset.css" type="text/css" rel="stylesheet"/>
+    <link href="/css/main.css" type="text/css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="bower_components/es5-shim/es5-shim.min.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/react/react-with-addons.js"></script>
+  </head>
+  <body>
+
+    <!-- Boot the app -->
+    <script type="text/javascript" src="app/ui/css_transition.js"></script>
+    <script type="text/javascript" src="app/components/card_viewport.js"></script>
+    <script type="text/javascript" src="app/components/header_bar.js"></script>
+    <script type="text/javascript" src="app/components/action_button.js"></script>
+    <script type="text/javascript" src="app/components/action_stack.js"></script>
+    <script type="text/javascript" src="app/components/input.js"></script>
+    <script type="text/javascript" src="app/components/app.js"></script>
+    <script type="text/javascript" src="app/cards/card_empty.js"></script>
+    <script type="text/javascript" src="app/cards/card_login.js"></script>
+    <script type="text/javascript" src="app/cards/card_signup.js"></script>
+    <script type="text/javascript" src="app/cards/card_confirmation.js"></script>
+    <script type="text/javascript" src="app/cards/card_frame.js"></script>
+    <script type="text/javascript" src="app/cards/card_shipping.js"></script>
+    <script type="text/javascript" src="app/cards/card_credit_card.js"></script>
+    <script type="text/javascript" src="app/cards/card_done.js"></script>
+    <script type="text/javascript" src="app/data/card_info.js"></script>
+    <script type="text/javascript" src="app/data/cards.js"></script>
+    <script type="text/javascript" src="app/ui/action.js"></script>
+    <script type="text/javascript" src="app/ui/card_stack.js"></script>
+    <script type="text/javascript" src="app/boot.js"></script>
+
+    <!-- Load extra data -->
+    <script type="text/javascript" src="/api/pricing_strategy?callback=app.CardInfoStore.setPricingStrategy"></script>
+
+  </body>
+</html>

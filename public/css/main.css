@@ -1,0 +1,388 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Helvetica', 'STHeitiTC-Light', 'Droid Sans', sans;
+  background-color: #F3F3F3;
+  font-size: 16px;
+}
+
+button, input, textarea, select, isindex, datagrid {
+  font: inherit;
+}
+
+hr {
+  border: 1px solid rgb(128, 128, 128);
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #2C2C2C;
+  color: #FFF;
+  width: 100%;
+  height: 40px;
+}
+
+.header .title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-weight: bold;
+  line-height: 40px;
+}
+
+.content {
+  margin-top: 40px;
+}
+
+.logo-container {
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+
+#actions {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #2C2C2C;
+}
+
+#actions .action {
+  color: #FFF;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#card-viewport {
+  -webkit-overflow-scrolling: touch;
+}
+
+.content section {
+  margin: 0 23px;
+}
+
+.content section header {
+  font-weight: bold;
+  text-align: center;
+}
+
+.field {
+  border-radius: 4px;
+  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+.field b {
+  font-weight: bold;
+}
+
+.field.confirm {
+  font-size: 14px;
+}
+
+.field.price {
+  line-height: 1.5em;
+}
+
+.field.half {
+  display: inline-block;
+  width: 102px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.field.half:first-child {
+  margin-left: 0;
+}
+
+.field label {
+  font-weight: bold;
+}
+
+.center-placeholder input::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.field input {
+  border: 0;
+  width: 100%;
+  text-align: left;
+  margin-top: -1px;
+}
+
+.field input.half {
+  border: 0;
+  width: 90px;
+}
+
+.field textarea {
+  width: 100%;
+  border: 0;
+}
+
+.field table {
+  width: 100%;
+}
+
+.field table tr td:first-child {
+  white-space:nowrap;
+}
+
+.field table .item_detail {
+  text-align: right;
+}
+
+button {
+  background-color: #FF4843;
+  border: 0;
+  color: #FFF;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+button.login {
+  width: 100%;
+  height: 40px;
+}
+
+.coupon_overlay button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.container {
+  position: relative;
+  width: 320px;
+  margin: 0 auto;
+}
+
+#card-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #F3F3F3;
+}
+
+#btn_back {
+  position: absolute;
+  top: 3px;
+  left: 10px;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.flash_message {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+}
+
+section.login {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+section.signup {
+  text-align: center;
+}
+
+section.signup a {
+  text-decoration: none;
+  color: #4F5252;
+}
+
+.toolbar {
+  padding: 10px;
+}
+
+input.frame_qty {
+  border-radius: 4px;
+  background-color: #FFF;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+button.frame_qty {
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: #FFF;
+  color: #4A4A4A;
+  padding: 5px;
+  margin: 0 5px;
+  font-size: 20px;
+}
+
+.field.coupon {
+  padding: 0;
+  padding-left: 10px;
+}
+
+.field.coupon button.coupon {
+  width: 100%;
+  height: 40px;
+}
+
+.creditcard_logo {
+  padding: 0 10px;
+}
+
+.order_id {
+  background-color: #FF4843;
+  padding: 5px;
+  color: #FFFFFF;
+}
+
+.shipping_date {
+  background-color: #FFFFFF;
+  padding: 5px;
+}
+
+/* Card Animation */
+
+.slide-enter {
+  transition: -webkit-transform .5s ease-in;
+  -webkit-transform: translate3d(100%, 0, 0);
+}
+
+.slide-enter.slide-enter-active {
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slide-leave {
+  transition: -webkit-transform .5s ease-in;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slide-leave.slide-leave-active {
+  -webkit-transform: translate3d(-100%, 0, 0);
+}
+
+.card_done {
+  line-height: 2.0em;
+  color: #727272;
+}
+
+.card_done .big_field {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: -10px;
+  box-sizing: border-box;
+  width: 280px;
+  margin-top: 10px;
+}
+
+.card_done b {
+  color: black;
+  font-weight: bold;
+}
+
+/* --- */
+
+.slide-reverse-enter {
+  transition: -webkit-transform .5s ease-in;
+  -webkit-transform: translate3d(-100%, 0, 0);
+}
+
+.slide-reverse-enter.slide-reverse-enter-active {
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slide-reverse-leave {
+  transition: -webkit-transform .5s ease-in;
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slide-reverse-leave.slide-reverse-leave-active {
+  -webkit-transform: translate3d(100%, 0, 0);
+}
+
+/* --- */
+
+.fade-enter {
+  transition: opacity .5s ease-in;
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+}
+
+.fade-leave {
+  transition: opacity .5s ease-in;
+  opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+}
+
+/* LigatureSymbols */
+
+@font-face {
+    font-family: 'LigatureSymbols';
+    src: url('../bower_components/ligature-symbols/LigatureSymbols-2.11.eot');
+    src: url('../bower_components/ligature-symbols/LigatureSymbols-2.11.eot?#iefix') format('embedded-opentype'),
+         url('../bower_components/ligature-symbols/LigatureSymbols-2.11.woff') format('woff'),
+         url('../bower_components/ligature-symbols/LigatureSymbols-2.11.ttf') format('truetype'),
+         url('../bower_components/ligature-symbols/LigatureSymbols-2.11.svg#LigatureSymbols') format('svg');
+    src: url('../bower_components/ligature-symbols/LigatureSymbols-2.11.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.lsf, .lsf-icon:before {
+    font-family: 'LigatureSymbols';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+       -moz-font-smoothing: antialiased;
+        -ms-font-smoothing: antialiased;
+         -o-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+}
+
+.lsf-icon:before {
+    content: attr(title);
+    margin-right: .3em;
+    font-size: 130%;
+}
