@@ -9,9 +9,9 @@ window.app.cards.CreditCardCard = React.createClass({
         React.DOM.section({},
           React.DOM.br({}),
           "您可以使用",
-          React.DOM.img({src: "/img/visa.png", srcSet: "/img/visa@2x.png 2x", className: "creditcard_logo"}),
+          React.DOM.img({src: "/assets/img/visa.png", srcSet: "/assets/img/visa_2x.png 2x", className: "creditcard_logo"}),
           "或",
-          React.DOM.img({src: "/img/mastercard.png", srcSet: "/img/mastercard@2x.png 2x", className: "creditcard_logo"}),
+          React.DOM.img({src: "/assets/img/mastercard.png", srcSet: "/assets/img/mastercard_2x.png 2x", className: "creditcard_logo"}),
           "付款。"
         ),
         React.DOM.form({
