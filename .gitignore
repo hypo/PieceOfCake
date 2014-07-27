@@ -9,3 +9,4 @@ uploads
 conf/application.conf
 .idea
 .idea_modules
+bower_components
