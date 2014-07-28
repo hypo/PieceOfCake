@@ -7,32 +7,27 @@ import play.api.mvc._
 import play.api.libs.json._
 import play.api.data._
 import play.api.data.Forms._
+import play.api.db.slick.DB
 import play.api.data.validation.Constraints._
 import models.PieceJsonReaders._
+
 
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.slick.driver.PostgresDriver.simple._
-import scala.slick.jdbc.{GetResult, StaticQuery => Q}
-import scala.slick.lifted._
-import Q.interpolation
-import Database.threadLocalSession
 
 object OrderController extends Controller {
   import scala.slick.driver.PostgresDriver.simple._
-  import play.api.db.DB
   import play.api.Play.current
-  
-  lazy val db = Database.forDataSource(DB.getDataSource())
+  import models.PiecesDAO._
 
   val orderForm = Form(tuple("name" -> text.verifying(nonEmpty), "address" -> text.verifying(nonEmpty)))
 
   def saveAddress(orderNumber: String) = Action.async { implicit request =>
-    future {
-      db withSession {
-        val q = for (p <- Pieces if p.token === orderNumber) yield p
-        q.firstOption.map(p => {
+    Future {
+      DB.withSession { implicit session =>
+        Pieces.filter(p => p.token === orderNumber).firstOption.map(p => {
           orderForm.bindFromRequest.fold(
             formWithErrors => {
               Logger.info("error: " + formWithErrors.errorsAsJson)
@@ -51,28 +46,25 @@ object OrderController extends Controller {
     }
   }
 
-  def makeOrder = Action(parse.tolerantJson(maxLength = 2 * 1024 * 1024)) { request =>
+  def makeOrder = Action.async(parse.tolerantJson(maxLength = 2 * 1024 * 1024)) { request =>
     Logger.info("receive: " + request.body)
     Json.fromJson[Piece](request.body).fold(
-      error ⇒ {
+      error ⇒ Future { 
         BadRequest("Json format invalid")
       },
-      (piece: Piece) ⇒ Async { /* Success */
-        future {
-          db withSession {
-            Pieces.forInsert.insert(piece)
-          }
-          Ok(Json.obj("token" -> piece.token))
+      (piece: Piece) ⇒ Future {
+        DB.withSession { implicit session =>
+          Pieces.insert(piece)
         }
+        Ok(Json.obj("token" -> piece.token))
       }
     )
   }
 
   def showOrder(orderNumber: String) = Action.async { implicit request =>
-    future {
-      db withSession {
-        val q = for (p <- Pieces if p.token === orderNumber) yield p
-        q.firstOption.map(p =>
+    Future {
+      DB.withSession { implicit session =>
+        Pieces.filter(p => p.token === orderNumber).firstOption.map(p =>
           Ok(views.html.order(p, orderForm))
         ).getOrElse(
           NotFound("Not Found!")
@@ -82,21 +74,21 @@ object OrderController extends Controller {
   }
 
   def showPCD(orderNumber: String) = Action.async { implicit request =>
-    future {
-      db withSession {
-        val q = for (p <- Pieces if p.token === orderNumber) yield p
-        q.firstOption.map(p =>
+    Future {
+      DB.withSession { implicit session =>
+        Pieces.filter(p => p.token === orderNumber).firstOption.map(p =>
           Ok(p.sheets.map(s => (s.pcdString + "\n") * s.qty).mkString("#############\n"))
-        ).getOrElse(NotFound("Order Not Found"))
+        ).getOrElse(
+          NotFound("Order Not Found")
+        )
       }
     }
   }
 
   def list = Action.async { implicit request =>
-    future {
-      db withSession {
-        val q = Query(Pieces)
-        Ok(views.html.list(q.list))
+    Future {
+      DB.withSession { implicit session =>
+        Ok(views.html.list(Pieces.list))
       }
     }
   }
