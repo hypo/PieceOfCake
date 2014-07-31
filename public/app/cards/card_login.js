@@ -27,7 +27,7 @@ window.app.cards.LoginCard = React.createClass({
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
-            React.DOM.input({type: 'text', name: 'password', placeholder: 'PASSWORD'})
+            React.DOM.input({type: 'password', name: 'password', placeholder: 'PASSWORD'})
           )
         ),
         React.DOM.section({className: 'login'},

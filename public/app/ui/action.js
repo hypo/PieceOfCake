@@ -46,7 +46,7 @@ app.handleAction = function(data) {
 
         postXHR("/api/signup", registerData, function(xhr){
           if (xhr.status != 200)
-            return app.CardStack.flashError("登入錯誤，請稍候再試");
+            return app.CardStack.flashError("註冊錯誤，請稍候再試");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
@@ -69,15 +69,43 @@ app.handleAction = function(data) {
         break;
       case "create-order":
         var data = app.CardInfoStore.getData();
-        var json = JSON.stringify(data);
 
-        postXHR("/api/create-order", {transaction: json}, function(xhr) {
+        postXHR("/api/create_order", {
+          name: data.name,
+          email: data.email,
+          tel: data.tel,
+          country: data.country,
+          area: data.area,
+          city: data.city,
+          zipcode: data.zipcode,
+          addr: data.addr,
+          frame_qty: data.frame_qty
+        }, function(xhr) {
           if (xhr.status != 200)
-            return app.CardStack.flashError("通訊失敗。請稍後再弒");
+            return app.CardStack.flashError("通訊失敗。請稍後再試");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
         });
+        break;
+      case "order-cc":
+        var data = app.CardInfoStore.getData();
+
+        postXHR("/api/credit_card", {
+          order_id: data.order_id,
+          card_no: data.cardno,
+          expiry: data.expiry,
+          cvv: data.cvv
+        }, function(xhr) {
+          if (xhr.status != 200)
+            return app.CardStack.flashError("通訊失敗。請稍後再試");
+
+          var data = JSON.parse(xhr.responseText);
+          app.handleAction(data);
+        });
+        break;
+      case "done":
+        location.href = "pieces://done";
         break;
       default:
         console.log("[WARN] ActionButton: unrecognized action: " + action);

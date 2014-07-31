@@ -28,7 +28,7 @@ var CardsStore = function() {
         {
           text: "下一步",
           actions: ["save-data", "push-card"],
-          card: "card_frame",
+          card: "card_confirmation",
           columns: ["name", "tel", "country", "city", "area", "zipcode", "addr"]
         }
       ]
@@ -52,9 +52,7 @@ var CardsStore = function() {
       actions: [
         {
           text: "信用卡付款",
-          actions: ["push-data", "push-card"],
-          changes: [["type", "credit-card"]],
-          card: "card_credit_card"
+          actions: ["create-order"]
         }
       ]
     },
@@ -65,7 +63,7 @@ var CardsStore = function() {
       actions: [
         {
           text: "確認",
-          actions: ["save-data", "create-order"],
+          actions: ["save-data", "order-cc"],
           columns: ["cardno", "expiry", "cvv"]
         }
       ]

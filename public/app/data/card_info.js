@@ -2,18 +2,7 @@ if (window.app === undefined) window.app = {};
 
 var CardInfoStore = function() {
   this.data = {
-    name: "鄂雅玲",
-    tel: "0983765046",
-    country: "台灣",
-    city: "台北市",
-    area: "中正區",
-    addr: "忠孝東路二段39巷2弄14號2樓",
-    zipcode: "10423",
-    frame_qty: 0,
-    cardno: "4311952222222222",
-    expiry: "0814",
-    cvv: "222",
-    estimated_shipping_date: "2014-02-13"
+    frame_qty: 0
   };
 
   this.pricingStrategy = {};
@@ -23,6 +12,10 @@ CardInfoStore.prototype.setPricingStrategy = function(newPricingStrategy) {
   // this is only used for cilent-side rendering
   // server will always validate if the latest pricing streategy is applied
   this.pricingStrategy = newPricingStrategy;
+}
+
+CardInfoStore.prototype.setEstimatedShippingDate = function(date) {
+  this.data['estimated_shipping_date'] = date;
 }
 
 CardInfoStore.prototype.update = function(data) {

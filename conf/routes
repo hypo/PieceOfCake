@@ -4,6 +4,7 @@
 
 # Home page
 GET     /mobile                             controllers.Assets.at(path="/public", file="index.html")
+GET     /mobile/start                       controllers.ApiController.start
 
 GET     /upload/:hash                       controllers.UploadController.getHash(hash)
 POST    /upload/:hash                       controllers.UploadController.uploadToHash(hash)
@@ -16,6 +17,11 @@ GET     /piece/:orderNumber                 controllers.OrderController.showOrde
 POST    /piece/:orderNumber/ship            controllers.OrderController.saveAddress(orderNumber)
 
 GET     /api/pricing_strategy               controllers.ApiController.pricingStrategy
+GET     /api/estimated_shipping_date        controllers.ApiController.estimatedShippingDate
+POST    /api/login                          controllers.ApiController.login
+POST    /api/signup                         controllers.ApiController.signup
+POST    /api/create_order                   controllers.ApiController.createOrder
+POST    /api/credit_card                    controllers.ApiController.creditCard
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.at(path="/public", file)
