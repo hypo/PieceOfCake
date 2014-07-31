@@ -7,6 +7,12 @@ import play.api.mvc.{Action, Controller}
 
 object ApiController extends Controller {
 
+  /*
+  def login() = Action { request =>
+
+  }
+  */
+
   def pricingStrategy() = Action { request =>
     val jsonObj = Json.toJson(PiecesPricingStrategy)
 
