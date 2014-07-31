@@ -6,6 +6,7 @@ import play.api.libs.iteratee._
 import play.api.libs.Files
 import play.api.libs.Files._
 import java.io._
+import java.nio.file._
 import java.security._
 import play.api.libs.json._
 import play.api.Play.current
@@ -43,7 +44,7 @@ object UploadController extends Controller {
     filePathForHash(hash).map(path ⇒ {
       val targetFile = new File(path)
       if (targetFile.exists) 
-        Done[Array[Byte], Either[SimpleResult, (String, File)]](Left(Ok(Json.toJson(
+        Done[Array[Byte], Either[Result, (String, File)]](Left(Ok(Json.toJson(
           Map("sha1" -> Json.toJson(hash), 
               "path" -> Json.toJson(s"/upload/$hash"), 
               "uploaded" -> Json.toJson(true))))), Input.Empty)
@@ -55,14 +56,14 @@ object UploadController extends Controller {
               file.delete
               Left(PreconditionFailed(Json.toJson(Map("error" -> "sha-1 doesn't match"))))
             } else {
-              Files.moveFile(file, targetFile)
+              java.nio.file.Files.move(file.toPath, targetFile.toPath)
               Right((sha1, targetFile))
             }
           }
           case result ⇒ result
         })
       }
-    }).getOrElse(Done[Array[Byte], Either[SimpleResult, (String, File)]](Left(NotFound(Json.toJson(Map("error" -> s"$hash is not valid")))), Input.Empty))
+    }).getOrElse(Done[Array[Byte], Either[Result, (String, File)]](Left(NotFound(Json.toJson(Map("error" -> s"$hash is not valid")))), Input.Empty))
   )
 
   def uploadToHash(hash: String) = Action(sha1FileParserCheckHash(hash)) { request ⇒
@@ -85,7 +86,7 @@ object UploadController extends Controller {
       if (file.exists && file.isFile) {
         val fileData = Enumerator.fromFile(file)        
 
-        SimpleResult(header = ResponseHeader(OK, Map(CONTENT_LENGTH -> file.length.toString, CONTENT_TYPE -> contentType)), body = fileData)
+        Result(header = ResponseHeader(OK, Map(CONTENT_LENGTH -> file.length.toString, CONTENT_TYPE -> contentType)), body = fileData)
       } else {
         NotFound
       }
@@ -97,7 +98,7 @@ object UploadController extends Controller {
     val (sha1: String, file: File) = request.body
     Logger.info("file: " + file)
     filePathForHash(sha1).foreach(path ⇒ {
-      Files.moveFile(file, new File(path))
+      java.nio.file.Files.move(file.toPath, new File(path).toPath)
     })
     Ok(Json.toJson(Map("sha1" -> sha1, "path" -> s"/upload/$sha1")))
   }
