@@ -16,6 +16,7 @@ GET     /piece/:orderNumber                 controllers.OrderController.showOrde
 POST    /piece/:orderNumber/ship            controllers.OrderController.saveAddress(orderNumber)
 
 GET     /api/pricing_strategy               controllers.ApiController.pricingStrategy
+POST    /api/login                          controllers.ApiController.login
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                       controllers.Assets.at(path="/public", file)

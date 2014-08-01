@@ -13,8 +13,7 @@ object ApplicationBuild extends Build {
       ws,
       "com.typesafe.slick" %% "slick" % "2.1.0-RC3",
       "com.typesafe.play" %% "play-slick" % "0.8.0-RC1",
-      "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
-      "net.databinder.dispatch" %% "dispatch-core" % "0.11.1"
+      "org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
     )
 
     val main = Project(appName, file(".")).enablePlugins(play.PlayScala).settings(
