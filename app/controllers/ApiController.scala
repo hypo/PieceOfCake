@@ -1,7 +1,7 @@
 package controllers
 
 import client.LiteClient
-import client.LiteObjects.LoginResponse
+import client.LiteObjects.{LiteUser, LoginResponse}
 import models.PiecesPricingStrategy
 import models.PricingStrategyWriter._
 import play.api.libs.json.Json
@@ -21,8 +21,8 @@ object ApiController extends Controller {
 
     credentials map { case (email, password) =>
       new LiteClient().login(email, password) map {
-        case Some(LoginResponse("ok", "verified", _)) => Ok(Json.stringify(loginOkResponse))
-        case _ => BadRequest(Json.stringify(loginFailResponse))
+        case Some(LoginResponse("ok", "verified", user)) => Ok(Json.stringify(loginOkResponse(user.get)))
+        case _ => Ok(Json.stringify(loginFailResponse))
       }
     } getOrElse Future { BadRequest(Json.stringify(loginFailResponse)) }
   }
@@ -36,9 +36,16 @@ object ApiController extends Controller {
     }
   }
 
-  val loginOkResponse = Json.obj(
-    "actions" -> Json.arr("push-card"),
-    "card"    -> "card_shipping"
+  def loginOkResponse(user: LiteUser) = Json.obj(
+    "actions" -> Json.arr("push-data", "push-card"),
+    "card"    -> "card_shipping",
+    "changes" -> Json.arr(
+      Json.arr("name", user.fullname),
+      Json.arr("tel", user.phone),
+      Json.arr("city", user.city),
+      Json.arr("zipcode", user.postcode),
+      Json.arr("addr", user.address)
+    )
   )
 
   val loginFailResponse = Json.obj(
