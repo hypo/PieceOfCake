@@ -56,7 +56,8 @@ object UploadController extends Controller {
               file.delete
               Left(PreconditionFailed(Json.toJson(Map("error" -> "sha-1 doesn't match"))))
             } else {
-              java.nio.file.Files.move(file.toPath, targetFile.toPath)
+              java.nio.file.Files.createDirectories(targetFile.toPath.getParent)
+              java.nio.file.Files.move(file.toPath, targetFile.toPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
               Right((sha1, targetFile))
             }
           }
@@ -98,7 +99,8 @@ object UploadController extends Controller {
     val (sha1: String, file: File) = request.body
     Logger.info("file: " + file)
     filePathForHash(sha1).foreach(path ⇒ {
-      java.nio.file.Files.move(file.toPath, new File(path).toPath)
+      java.nio.file.Files.createDirectories(new File(path).toPath.getParent)
+      java.nio.file.Files.move(file.toPath, new File(path).toPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
     })
     Ok(Json.toJson(Map("sha1" -> sha1, "path" -> s"/upload/$sha1")))
   }
