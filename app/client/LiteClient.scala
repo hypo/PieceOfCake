@@ -19,6 +19,18 @@ class LiteClient {
     )) map { resp => resp.json.asOpt[LoginResponse] }
   }
 
+  def signup(user: LiteUser) = getAccessToken flatMap { accessToken =>
+    service("/api/users", accessToken).post(Json.toJson(user)) map { resp => resp.json.asOpt[LoginResponse] }
+  }
+
+  def createOrder(order: LiteOrder) = getAccessToken flatMap { accessToken =>
+    service("/api/orders/pieces", accessToken).post(Json.toJson(order)) map { resp => resp.json.asOpt[OrderResponse] }
+  }
+
+  def atmAccount(orderId: Int) = getAccessToken flatMap { accessToken =>
+    service(s"/api/orders/$orderId/atm", accessToken).get map { resp => resp.json.asOpt[ATMAccountResponse] }
+  }
+
   private def getAccessToken() : Future[Option[AccessToken]] = {
     service("/oauth2/access_token", None)
       .withAuth(credential._1, credential._2, WSAuthScheme.BASIC)

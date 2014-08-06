@@ -28,7 +28,7 @@ var CardsStore = function() {
         {
           text: "下一步",
           actions: ["save-data", "push-card"],
-          card: "card_frame",
+          card: "card_confirmation",
           columns: ["name", "tel", "country", "city", "area", "zipcode", "addr"]
         }
       ]

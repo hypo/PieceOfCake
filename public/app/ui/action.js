@@ -46,7 +46,7 @@ app.handleAction = function(data) {
 
         postXHR("/api/signup", registerData, function(xhr){
           if (xhr.status != 200)
-            return app.CardStack.flashError("登入錯誤，請稍候再試");
+            return app.CardStack.flashError("註冊錯誤，請稍候再試");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);

@@ -2,13 +2,7 @@ if (window.app === undefined) window.app = {};
 
 var CardInfoStore = function() {
   this.data = {
-    country: "台灣",
-    area: "中正區",
-    frame_qty: 0,
-    cardno: "4311952222222222",
-    expiry: "0814",
-    cvv: "222",
-    estimated_shipping_date: "2014-02-13"
+    frame_qty: 0
   };
 
   this.pricingStrategy = {};
