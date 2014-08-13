@@ -121,7 +121,7 @@ hr {
   text-align: center;
 }
 
-.field input {
+.field input, .field select {
   border: 0;
   width: 100%;
   text-align: left;

@@ -133,6 +133,20 @@ package object LiteObjects {
     (__ \ "account").read[String]
   )(ATMAccountResponse)
 
+  case class EstimatedShippingDateResponse(status: String, estimated_shipping_date: String)
+
+  implicit val estimatedShippingDateResponseRead: Reads[EstimatedShippingDateResponse] = (
+    (__ \ "status").read[String] ~
+    (__ \ "estimated_shipping_date").read[String]
+  )(EstimatedShippingDateResponse)
+
+  case class CreditCardResponse(status: String, message: String /* and a bunch of stuff that I don't care right now */)
+
+  implicit val creditCardResponseRead: Reads[CreditCardResponse] = (
+    (__ \ "status").read[String] ~
+    (__ \ "message").read[String]
+  )(CreditCardResponse)
+
   object Constants {
     val CountryIdToName = Map(
       1 -> "Taiwan",

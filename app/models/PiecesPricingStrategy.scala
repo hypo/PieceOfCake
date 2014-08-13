@@ -7,7 +7,9 @@ case class PricingStrategy(
   pieces: Int,
   shipping: Int,
   frame: Int
-)
+) {
+  def total(frame_qty: Int) = pieces + shipping + frame * frame_qty
+}
 
 object PiecesPricingStrategy extends PricingStrategy(390, 0, 390)
 

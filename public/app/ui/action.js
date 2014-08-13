@@ -69,15 +69,44 @@ app.handleAction = function(data) {
         break;
       case "create-order":
         var data = app.CardInfoStore.getData();
-        var json = JSON.stringify(data);
 
-        postXHR("/api/create-order", {transaction: json}, function(xhr) {
+        postXHR("/api/create_order", {
+          name: data.name,
+          email: data.email,
+          tel: data.tel,
+          country: data.country,
+          area: data.area,
+          city: data.city,
+          zipcode: data.zipcode,
+          addr: data.addr,
+          frame_qty: data.frame_qty
+        }, function(xhr) {
           if (xhr.status != 200)
             return app.CardStack.flashError("通訊失敗。請稍後再弒");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
         });
+        break;
+      case "order-cc":
+        var data = app.CardInfoStore.getData();
+
+        postXHR("/api/credit_card", {
+          order_id: data.order_id,
+          sig: data.cc_sig,
+          card_no: data.card_no,
+          expiry: data.expiry,
+          cvv: data.cvv
+        }, function(xhr) {
+          if (xhr.status != 200)
+            return app.CardStack.flashError("通訊失敗。請稍後再弒");
+
+          var data = JSON.parse(xhr.responseText);
+          app.handleAction(data);
+        });
+        break;
+      case "done":
+        location.href = "pieces://done";
         break;
       default:
         console.log("[WARN] ActionButton: unrecognized action: " + action);

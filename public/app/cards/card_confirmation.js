@@ -71,7 +71,7 @@ window.app.cards.ConfirmationCard = React.createClass({
             )
           )
         ),
-        React.DOM.section({},
+        React.DOM.section({style: {display: 'none'}},
           React.DOM.div({className: 'field coupon'},
             React.DOM.div({className: 'coupon_overlay', onClick: this.enableCoupon},
               React.DOM.button({}, '輸入 Coupon Code')

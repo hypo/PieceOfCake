@@ -13,7 +13,7 @@ window.app.cards.DoneCard = React.createClass({
           React.DOM.span({className: 'order_id'}, "#" + this.props.order_id + " 訂購成功")
         ),
         React.DOM.section({},
-          React.DOM.span({className: 'shipping_date'}, "預計出貨日 " + this.props.shipping_date)
+          React.DOM.span({className: 'shipping_date'}, "預計出貨日 " + this.props.estimated_shipping_date)
         ),
         React.DOM.section({},
           React.DOM.br({}),

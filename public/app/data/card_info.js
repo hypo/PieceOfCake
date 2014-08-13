@@ -14,6 +14,10 @@ CardInfoStore.prototype.setPricingStrategy = function(newPricingStrategy) {
   this.pricingStrategy = newPricingStrategy;
 }
 
+CardInfoStore.prototype.setEstimatedShippingDate = function(date) {
+  this.data['estimated_shipping_date'] = date;
+}
+
 CardInfoStore.prototype.update = function(data) {
   for(var i=0;i<data.length;i++) {
     var k = data[i][0];
