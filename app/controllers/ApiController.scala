@@ -15,7 +15,13 @@ object ApiController extends Controller {
   val config = CakeConfig.fromFile("config.js")
   val liteClient = new LiteClient(config.liteCredentials)
 
-  def login() = Action.async { request =>
+  def start() = Action { request =>
+    Found("/mobile").withSession(
+      "cake_token" -> request.getQueryString("token").get
+    )
+  }
+
+  def login() = Action.async { implicit request =>
     val credentials = for (
       params <- request.body.asFormUrlEncoded;
       emails <- params.get("email");
@@ -24,7 +30,7 @@ object ApiController extends Controller {
 
     credentials map { case (email, password) =>
       liteClient.login(email, password) map {
-        case Some(LoginResponse("ok", "verified", user)) => Ok(loginOkResponse(user.get)).withSession(
+        case Some(LoginResponse("ok", "verified", user)) => Ok(loginOkResponse(user.get)).addingToSession(
           "user_id" -> user.get.id.toString
         )
         case _ => Ok(loginFailResponse)
@@ -32,7 +38,7 @@ object ApiController extends Controller {
     } getOrElse Future { BadRequest(loginFailResponse) }
   }
 
-  def signup() = Action.async { request =>
+  def signup() = Action.async { implicit request =>
     request.body.asFormUrlEncoded match {
       case Some(params) => {
         if (requiredSignupFieldsArePresent(params)) {
@@ -41,7 +47,7 @@ object ApiController extends Controller {
 
           val user = LiteUser(fullname = Some(name), phone = tel, email = email, password = Some(password))
           liteClient.signup(user) map {
-            case Some(LoginResponse("ok", "created", user)) => Ok(loginOkResponse(user.get)).withSession(
+            case Some(LoginResponse("ok", "created", user)) => Ok(loginOkResponse(user.get)).addingToSession(
               "user_id" -> user.get.id.toString
             )
             case _ => Ok(signupFailResponse)
@@ -54,7 +60,7 @@ object ApiController extends Controller {
     }
   }
 
-  def createOrder() = Action.async { request =>
+  def createOrder() = Action.async { implicit request =>
     request.body.asFormUrlEncoded match {
       case Some(params) => {
         if (requiredOrderFieldsArePresent(params)) {
@@ -76,7 +82,8 @@ object ApiController extends Controller {
             city     = city,
             state    = area,
             postcode = zipcode,
-            address  = addr
+            address  = addr,
+            token    = request.session.get("cake_token").get
           )
 
           liteClient.createOrder(order) flatMap {
@@ -87,7 +94,7 @@ object ApiController extends Controller {
               ) yield id
 
               orderId match {
-                case Some(orderId) => Future { Ok(orderOkResponse(orderId)).withSession(
+                case Some(orderId) => Future { Ok(orderOkResponse(orderId)).addingToSession(
                   "order_id" -> orderId.toString
                 ) }
                 case None => Future { Ok(orderFailResponse) }
@@ -110,7 +117,10 @@ object ApiController extends Controller {
           val (orderId, card_no, expiry, cvv) = (request.session.get("order_id").get, p("card_no"), p("expiry"), p("cvv"))
 
           LiteClient.mkCard(card_no, expiry, cvv) match {
-            case Some(creditCard) => liteClient.creditCard(orderId.toInt, creditCard) map { d => Ok(creditCardOkResponse) }
+            case Some(creditCard) => liteClient.creditCard(orderId.toInt, creditCard) flatMap {
+              case Some(CreditCardResponse("ok", _)) => Future { Ok(creditCardOkResponse) }
+              case _ => errorResponse("刷卡失敗，請檢查信用卡資訊。")
+            }
             case None => errorResponse("信用卡資訊無法識別。")
           }
         } else {

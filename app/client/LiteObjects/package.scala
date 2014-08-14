@@ -41,7 +41,8 @@ package object LiteObjects {
     city: String,
     state: String,
     postcode: String,
-    address: String
+    address: String,
+    token: String
   )
 
   implicit val liteOrderRead: Reads[LiteOrder] = Json.reads[LiteOrder]

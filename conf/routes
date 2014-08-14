@@ -4,6 +4,7 @@
 
 # Home page
 GET     /mobile                             controllers.Assets.at(path="/public", file="index.html")
+GET     /mobile/start                       controllers.ApiController.start
 
 GET     /upload/:hash                       controllers.UploadController.getHash(hash)
 POST    /upload/:hash                       controllers.UploadController.uploadToHash(hash)

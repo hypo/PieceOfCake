@@ -93,8 +93,7 @@ app.handleAction = function(data) {
 
         postXHR("/api/credit_card", {
           order_id: data.order_id,
-          sig: data.cc_sig,
-          card_no: data.card_no,
+          card_no: data.cardno,
           expiry: data.expiry,
           cvv: data.cvv
         }, function(xhr) {

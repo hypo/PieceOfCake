@@ -36,7 +36,7 @@ class LiteClient(
       "month" -> Seq(creditCard.month),
       "year" -> Seq(creditCard.year),
       "cvv2" -> Seq(creditCard.cvv)
-    )) map { resp => println(resp.body); resp.json.asOpt[CreditCardResponse] }
+    )) map { resp => resp.json.asOpt[CreditCardResponse] }
 
   def estimatedShippingDate() = service("/api/orders/estimated_shipping_date", None).get map { resp => resp.json.asOpt[EstimatedShippingDateResponse] }
 
@@ -59,6 +59,7 @@ object LiteClient {
     if (expiry.length != 4) {
       None
     } else {
+
       val (mm, yy) = (expiry.substring(0, 2), expiry.substring(2, 4))
       if (mm.toInt < 0 || mm.toInt > 12 || yy.toInt < 0)
         None
