@@ -60,7 +60,7 @@ object LiteClient {
       None
     } else {
 
-      val (mm, yy) = (expiry.substring(0, 2), expiry.substring(2, 4))
+      val (mm, yy) = (expiry.splitAt(2))
       if (mm.toInt < 0 || mm.toInt > 12 || yy.toInt < 0)
         None
       else
