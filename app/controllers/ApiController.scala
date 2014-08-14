@@ -69,7 +69,7 @@ object ApiController extends Controller {
           val order = LiteOrder(
             user_id  = request.session.get("user_id").getOrElse("0").toInt,
             total    = price.toInt,
-            numberOfPages = 1,
+            number_of_pages = 1,
             email    = email,
             fullname = name,
             phone    = tel,
