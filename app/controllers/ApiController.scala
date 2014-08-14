@@ -2,18 +2,18 @@ package controllers
 
 import client.LiteClient
 import client.LiteObjects._
-import com.github.t3hnar.bcrypt._
-import models.PiecesPricingStrategy
+import models.{CakeConfig, PiecesPricingStrategy}
 import models.PricingStrategyWriter._
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 
 object ApiController extends Controller {
 
-  val liteClient = new LiteClient()
+  val config = CakeConfig.fromFile("config.js")
+  val liteClient = new LiteClient(config.liteCredentials)
 
   def login() = Action.async { request =>
     val credentials = for (
@@ -24,12 +24,12 @@ object ApiController extends Controller {
 
     credentials map { case (email, password) =>
       liteClient.login(email, password) map {
-        case Some(LoginResponse("ok", "verified", user)) => Ok(Json.stringify(loginOkResponse(user.get))).withSession(
+        case Some(LoginResponse("ok", "verified", user)) => Ok(loginOkResponse(user.get)).withSession(
           "user_id" -> user.get.id.toString
         )
-        case _ => Ok(Json.stringify(loginFailResponse))
+        case _ => Ok(loginFailResponse)
       }
-    } getOrElse Future { BadRequest(Json.stringify(loginFailResponse)) }
+    } getOrElse Future { BadRequest(loginFailResponse) }
   }
 
   def signup() = Action.async { request =>
@@ -41,10 +41,10 @@ object ApiController extends Controller {
 
           val user = LiteUser(fullname = Some(name), phone = tel, email = email, password = Some(password))
           liteClient.signup(user) map {
-            case Some(LoginResponse("ok", "created", user)) => Ok(Json.stringify(loginOkResponse(user.get))).withSession(
+            case Some(LoginResponse("ok", "created", user)) => Ok(loginOkResponse(user.get)).withSession(
               "user_id" -> user.get.id.toString
             )
-            case _ => Ok(Json.stringify(signupFailResponse))
+            case _ => Ok(signupFailResponse)
           }
         } else {
           errorResponse("請確認欄位皆已填寫。")
@@ -87,10 +87,12 @@ object ApiController extends Controller {
               ) yield id
 
               orderId match {
-                case Some(orderId) => Future { Ok(Json.stringify(orderOkResponse(orderId))) }
-                case None => Future { Ok(Json.stringify(orderFailResponse)) }
+                case Some(orderId) => Future { Ok(orderOkResponse(orderId)).withSession(
+                  "order_id" -> orderId.toString
+                ) }
+                case None => Future { Ok(orderFailResponse) }
               }
-            case _ => Future { Ok(Json.stringify(orderFailResponse)) }
+            case _ => Future { Ok(orderFailResponse) }
           }
         } else {
           errorResponse("請確認欄位皆已填寫。")
@@ -104,16 +106,12 @@ object ApiController extends Controller {
     request.body.asFormUrlEncoded match {
       case Some(params) => {
         if (requiredCreditCardFieldsArePresent(params)) {
-          if (verifyCCSignature(params)) {
-            val p = extractParamHead(params)(_)
-            val (orderId, card_no, expiry, cvv) = (p("order_id"), p("card_no"), p("expiry"), p("cvv"))
+          val p = extractParamHead(params)(_)
+          val (orderId, card_no, expiry, cvv) = (request.session.get("order_id").get, p("card_no"), p("expiry"), p("cvv"))
 
-            LiteClient.mkCard(card_no, expiry, cvv) match {
-              case Some(creditCard) => liteClient.creditCard(orderId.toInt, creditCard) map { d => Ok(Json.stringify(creditCardOkResponse))}
-              case None => errorResponse("信用卡資訊無法識別。")
-            }
-          } else {
-            errorResponse("系統錯誤，請稍候再試。")
+          LiteClient.mkCard(card_no, expiry, cvv) match {
+            case Some(creditCard) => liteClient.creditCard(orderId.toInt, creditCard) map { d => Ok(creditCardOkResponse) }
+            case None => errorResponse("信用卡資訊無法識別。")
           }
         } else {
           errorResponse("請確認欄位皆已填寫。")
@@ -154,11 +152,7 @@ object ApiController extends Controller {
 
   private[this] def requiredOrderFieldsArePresent = verifyFieldsArePresent(Seq("name", "email", "tel", "country", "area", "city", "zipcode", "addr", "frame_qty")) _
 
-  private[this] def verifyCCSignature(params: Map[String, Seq[String]]) = {
-    creditCardSignString(params.get("order_id").get.head.toInt).isBcrypted(params.get("sig").get.head.trim)
-  }
-
-  private[this] def requiredCreditCardFieldsArePresent = verifyFieldsArePresent(Seq("card_no", "expiry", "cvv", "order_id", "sig")) _
+  private[this] def requiredCreditCardFieldsArePresent = verifyFieldsArePresent(Seq("card_no", "expiry", "cvv", "order_id")) _
 
   private[this] def verifyFieldsArePresent(fields: Seq[String])(params: Map[String, Seq[String]]) = fields forall { key =>
     (params.getOrElse(key, Seq()).size > 0) && (params.get(key).get.head.trim.length > 0)
@@ -181,13 +175,11 @@ object ApiController extends Controller {
     )
   )
 
-  private[this] def creditCardSignString(orderId: Int) = s"hypo-Pieces-credit-card-token-27dh13uhd0918hu9dh1278-$orderId"
   private[this] def orderOkResponse(orderId: Int) = Json.obj(
     "actions" -> Json.arr("push-data", "push-card"),
     "card"    -> "card_credit_card",
     "changes" -> Json.arr(
-      Json.arr("order_id", orderId),
-      Json.arr("cc_sig", creditCardSignString(orderId).bcrypt)
+      Json.arr("order_id", orderId)
     )
   )
 

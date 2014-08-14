@@ -8,7 +8,9 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.Play.current
 
-class LiteClient {
+class LiteClient(
+  val credential: (String, String)
+) {
 
   import LiteClient._
 
@@ -54,6 +56,8 @@ class LiteClient {
 
 object LiteClient {
 
+  def apply(credentials: (String, String)) = new LiteClient(credentials)
+
   case class CreditCard(number: String, month: String, year: String, cvv: String)
   def mkCard(number: String, expiry: String, cvv: String) = {
     if (expiry.length != 4) {
@@ -67,7 +71,6 @@ object LiteClient {
     }
   }
 
-  val credential = ("YmZjNDFjYjItMjBlMC00YTg1LTgzZTItNzA2Yzg3ZjI4MzAz", "MDFmNjJhOGQtNTA3NS00Yjc5LWIwOGUtOGRmYjU5ZTRhNmIx")
   def p(path: String) = s"http://lite.hypo.cc$path"
   def service(path: String, token: Option[AccessToken]) = {
     val svc = WS.url(p(path))
