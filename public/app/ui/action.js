@@ -82,7 +82,7 @@ app.handleAction = function(data) {
           frame_qty: data.frame_qty
         }, function(xhr) {
           if (xhr.status != 200)
-            return app.CardStack.flashError("通訊失敗。請稍後再弒");
+            return app.CardStack.flashError("通訊失敗。請稍後再試");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
@@ -98,7 +98,7 @@ app.handleAction = function(data) {
           cvv: data.cvv
         }, function(xhr) {
           if (xhr.status != 200)
-            return app.CardStack.flashError("通訊失敗。請稍後再弒");
+            return app.CardStack.flashError("通訊失敗。請稍後再試");
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
