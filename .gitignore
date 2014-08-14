@@ -7,7 +7,6 @@ tmp
 *~
 uploads
 conf/application.conf
-conf/res/config.js
 .idea
 .idea_modules
 bower_components

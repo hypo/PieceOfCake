@@ -10,7 +10,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.Play.current
 
 class LiteClient(
-  val credential: (String, String)
+  credential: (String, String),
+  baseURL: String
 ) {
 
   import LiteClient._
@@ -48,11 +49,20 @@ class LiteClient(
       )) map { resp => resp.json.asOpt[AccessToken] }
   , Duration.Inf)
 
+  private[this] def p(path: String) = s"$baseURL$path"
+
+  private[this] def service(path: String, token: Option[AccessToken]) = {
+    val svc = WS.url(p(path))
+    token map { t =>
+      svc.withHeaders(("Authorization", t.toString))
+    } getOrElse svc
+  }
+
 }
 
 object LiteClient {
 
-  def apply(credentials: (String, String)) = new LiteClient(credentials)
+  def apply(credentials: (String, String), baseURL: String) = new LiteClient(credentials, baseURL)
 
   case class CreditCard(number: String, month: String, year: String, cvv: String)
   def mkCard(number: String, expiry: String, cvv: String) = {
@@ -66,14 +76,6 @@ object LiteClient {
       else
         Some(CreditCard(number, mm, yy, cvv))
     }
-  }
-
-  def p(path: String) = s"http://lite.hypo.cc$path"
-  def service(path: String, token: Option[AccessToken]) = {
-    val svc = WS.url(p(path))
-    token map { t =>
-      svc.withHeaders(("Authorization", t.toString))
-    } getOrElse svc
   }
 
 }

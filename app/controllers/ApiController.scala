@@ -2,8 +2,9 @@ package controllers
 
 import client.LiteClient
 import client.LiteObjects._
-import models.{CakeConfig, PiecesPricingStrategy}
+import models.PiecesPricingStrategy
 import models.PricingStrategyWriter._
+import play.api.Play
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
@@ -12,8 +13,11 @@ import scala.concurrent.Future
 
 object ApiController extends Controller {
 
-  val config = CakeConfig.fromFile("config.js")
-  val liteClient = new LiteClient(config.liteCredentials)
+  val config = Play.current.configuration
+  val liteClient = new LiteClient(
+    (config.getString("lite.username").get, config.getString("lite.password").get),
+    config.getString("lite.baseurl").get
+  )
 
   def start() = Action { request =>
     Found("/mobile").withSession(
