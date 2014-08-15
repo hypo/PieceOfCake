@@ -12,7 +12,6 @@ POST    /upload                             controllers.UploadController.upload
 
 POST    /piece                              controllers.OrderController.makeOrder
 GET     /piece/list                         controllers.OrderController.list
-POST    /piece/:orderNumber/ship            controllers.OrderController.saveAddress(orderNumber)
 GET     /piece/:orderToken.pcd             controllers.OrderController.showPCD(orderToken)
 GET     /piece/:orderToken                 controllers.OrderController.showOrder(orderToken)
 

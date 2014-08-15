@@ -1,4 +1,4 @@
-@(piece: models.Piece, form: Form[(String, String)])
+@(piece: models.Piece)
 
 <!DOCTYPE html>
 <html>
@@ -22,14 +22,6 @@
   }
 </div>
 }
-        <h3>Shipping To:</h3>
-  @helper.form(action = routes.OrderController.saveAddress(piece.token)) {
-      @helper.inputText(form("name"))
-
-      @helper.inputText(form("address"))
-
-      <button>Save</button>
-  }
 
  <p>* Every Pieces will be made in 5 business days, free worldwide shipping!</p>
 
