@@ -1,8 +1,7 @@
 package models
 
 import scala.slick.driver.PostgresDriver.simple._
-import play.api.Play.current
-
+import scala.language.postfixOps
 import java.sql._
 
 import play.api.libs.json._
@@ -11,15 +10,8 @@ import play.api.libs.functional.syntax._
 object PieceJsonReaders {
   import play.api.libs.json.Reads._
 
-  implicit val photoReads: Reads[Photo] = (
-    (__ \ "source").read[String] and
-    (__ \ "url").read[String]
-  )(Photo)
-
-  implicit val pieceOfSheetReads: Reads[PieceOfSheet] = (
-    (__ \ "qty").read[Int] and
-    (__ \ "photos").read[List[Photo]]
-  )(PieceOfSheet)
+  implicit val photoReads = Json.reads[Photo]
+  implicit val pieceOfSheetReads = Json.reads[PieceOfSheet]
 
   implicit val pieceReads: Reads[Piece] = (
     (__ \ "pieces_type").read[String] and
@@ -30,21 +22,13 @@ object PieceJsonReaders {
 object PieceJsonWriters {
   import play.api.libs.json.Writes._
   
-  implicit val photoWrites: Writes[Photo] = (
-    (__ \ "source").write[String] and
-    (__ \ "url").write[String]
-  )(unlift(Photo.unapply))
-
-  implicit val pieceOfSheetWrites: Writes[PieceOfSheet] = (
-    (__ \ "qty").write[Int] and
-    (__ \ "photos").write[List[Photo]]
-  )(unlift(PieceOfSheet.unapply))
+  implicit val photoWrites = Json.writes[Photo]
+  implicit val pieceOfSheetWrites = Json.writes[PieceOfSheet]
 
   implicit val pieceWrites: Writes[Piece] = (
   (__ \ "pieces_type").write[String] and
   (__ \ "data").write[List[PieceOfSheet]]
   )((p: Piece) => (p.pieceType, p.sheets))
-
 }
 
 case class Photo(source: String, url: String)
