@@ -12,9 +12,9 @@ POST    /upload                             controllers.UploadController.upload
 
 POST    /piece                              controllers.OrderController.makeOrder
 GET     /piece/list                         controllers.OrderController.list
-GET     /piece/:orderNumber.pcd             controllers.OrderController.showPCD(orderNumber)
-GET     /piece/:orderNumber                 controllers.OrderController.showOrder(orderNumber)
 POST    /piece/:orderNumber/ship            controllers.OrderController.saveAddress(orderNumber)
+GET     /piece/:orderToken.pcd             controllers.OrderController.showPCD(orderToken)
+GET     /piece/:orderToken                 controllers.OrderController.showOrder(orderToken)
 
 GET     /api/pricing_strategy               controllers.ApiController.pricingStrategy
 GET     /api/estimated_shipping_date        controllers.ApiController.estimatedShippingDate

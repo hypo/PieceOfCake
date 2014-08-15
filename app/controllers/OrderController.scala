@@ -61,10 +61,10 @@ object OrderController extends Controller {
     )
   }
 
-  def showOrder(orderNumber: String) = Action.async { implicit request =>
+  def showOrder(orderToken: String) = Action.async { implicit request =>
     Future {
       DB.withSession { implicit session =>
-        Pieces.filter(p => p.token === orderNumber).firstOption.map(p =>
+        Pieces.filter(p => p.token === orderToken).firstOption.map(p =>
           Ok(views.html.order(p, orderForm))
         ).getOrElse(
           NotFound("Not Found!")
@@ -73,10 +73,10 @@ object OrderController extends Controller {
     }
   }
 
-  def showPCD(orderNumber: String) = Action.async { implicit request =>
+  def showPCD(orderToken: String) = Action.async { implicit request =>
     Future {
       DB.withSession { implicit session =>
-        Pieces.filter(p => p.token === orderNumber).firstOption.map(p =>
+        Pieces.filter(p => p.token === orderToken).firstOption.map(p =>
           Ok(p.sheets.map(s => (s.pcdString + "\n") * s.qty).mkString("#############\n"))
         ).getOrElse(
           NotFound("Order Not Found")
