@@ -11,16 +11,14 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       jdbc,
       ws,
-      "com.typesafe.slick" %% "slick" % "2.1.0-RC3",
-      "com.typesafe.play" %% "play-slick" % "0.8.0-RC1",
-      "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
-      "com.github.t3hnar" %% "scala-bcrypt" % "2.4"
+      "com.typesafe.slick" %% "slick" % "2.1.0",
+      "com.typesafe.play" %% "play-slick" % "0.8.0",
+      "org.postgresql" % "postgresql" % "9.3-1102-jdbc41"
     )
 
     val main = Project(appName, file(".")).enablePlugins(play.PlayScala).settings(
       version := appVersion,
       resolvers ++= Seq(
-        "jBCrypt Repository" at "http://repo1.maven.org/maven2/org/",
         "fwbrasil.net" at "http://fwbrasil.net/maven/",
         "Typesafe Repo" at "http://repo.typesafe.com/typesafe/repo/"
       ),
