@@ -22,7 +22,7 @@ window.app.cards.LoginCard = React.createClass({
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
-            React.DOM.input({type: 'text', name: 'email', placeholder: 'EMAIL'})
+            React.DOM.input({type: 'email', name: 'email', placeholder: 'EMAIL'})
           )
         ),
         React.DOM.section({},

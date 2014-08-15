@@ -17,7 +17,8 @@ window.app.Input = React.createClass({
               type: this.props.type,
               name: this.props.name,
               placeholder: this.props.placeholder,
-              defaultValue: this.props.defaultValue
+              defaultValue: this.props.defaultValue,
+              pattern: this.props.pattern
             }))
           )
         )
