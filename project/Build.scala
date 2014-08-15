@@ -23,7 +23,8 @@ object ApplicationBuild extends Build {
         "Typesafe Repo" at "http://repo.typesafe.com/typesafe/repo/"
       ),
       scalaVersion := "2.11.2",
-      libraryDependencies ++= appDependencies
+      libraryDependencies ++= appDependencies,
+      scalacOptions ++= Seq("-deprecation", "-feature", "-deprecation")
     )
 
 }
