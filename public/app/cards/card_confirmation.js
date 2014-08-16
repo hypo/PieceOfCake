@@ -22,7 +22,7 @@ window.app.cards.ConfirmationCard = React.createClass({
             React.DOM.br({}),
             this.props.zipcode,
             React.DOM.br({}),
-            this.props.country,
+            app.countries[this.props.country],
             React.DOM.br({}),
             this.props.city,
             this.props.area,
