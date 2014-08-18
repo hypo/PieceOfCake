@@ -11,8 +11,11 @@ import play.api.db.slick.DB
 import play.api.data.validation.Constraints._
 import models.PieceJsonReaders._
 
+
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.slick.driver.PostgresDriver.simple._
 
 object OrderController extends Controller {
   import scala.slick.driver.PostgresDriver.simple._

@@ -7,9 +7,6 @@ window.app.cards.ConfirmationCard = React.createClass({
     $('.coupon_overlay').fadeOut();
     document.querySelector('input.coupon').focus();
   },
-  piecesPrice: function() {
-    return this.props.price.pieces * this.props.price.pieces_qty;
-  },
   render: function() {
     return (
       React.DOM.div({className: 'content'},
@@ -25,7 +22,7 @@ window.app.cards.ConfirmationCard = React.createClass({
             React.DOM.br({}),
             this.props.zipcode,
             React.DOM.br({}),
-            app.countries[this.props.country],
+            this.props.country,
             React.DOM.br({}),
             this.props.city,
             this.props.area,
@@ -41,7 +38,7 @@ window.app.cards.ConfirmationCard = React.createClass({
                   'Pieces'
                 ),
                 React.DOM.td({className: 'item_detail'},
-                  this.piecesPrice() + ' NTD'
+                  this.props.price.pieces + ' NTD'
                 )
               ),
               React.DOM.tr({},
