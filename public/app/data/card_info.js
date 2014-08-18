@@ -40,7 +40,7 @@ CardInfoStore.prototype._addPricingInfo = function(data) {
 
   d['price'] = JSON.parse(JSON.stringify(this.pricingStrategy));
   d['price']['frame'] = d.price.frame * d.frame_qty;
-  d['price']['total'] = d.price.pieces + d.price.shipping + d.price.frame;
+  d['price']['total'] = d.price.pieces * d.price.pieces_qty + d.price.shipping + d.price.frame;
 
   return d;
 }
