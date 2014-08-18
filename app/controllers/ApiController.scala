@@ -2,8 +2,8 @@ package controllers
 
 import client.LiteClient
 import client.LiteObjects._
-import models.{PricingStrategy, PiecesPricingStrategy}
 import models.PricingStrategyJSONFormatter._
+import models.{PiecesPricingStrategy, PricingStrategy}
 import play.api.Play
 import play.api.db.slick._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -11,15 +11,15 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import util.ModelUtils
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
+import scala.concurrent.Future
 
 object ApiController extends Controller {
-  import scala.slick.driver.PostgresDriver.simple._
-  import play.api.Play.current
+  import controllers.APIControllerHelper._
   import models.PiecesDAO._
-  import APIControllerHelper._
-  import ModelUtils._
+  import play.api.Play.current
+  import util.ModelUtils._
+
+import scala.slick.driver.PostgresDriver.simple._
 
   val config = Play.current.configuration
   val liteClient = new LiteClient(
@@ -69,7 +69,7 @@ object ApiController extends Controller {
 
     sessionInfo map { case (orderToken, userId) =>
       getPiecesCount(orderToken) flatMap { piecesCount =>
-        val pricingStrategy = PiecesPricingStrategy.copy(pieces_qty = piecesCount)
+        val pricingStrategy = PiecesPricingStrategy.pricingStrategyFor(piecesCount)
         LiteOrderFromParams(request, userId, orderToken, pricingStrategy) map { order =>
           liteClient.createOrder(order) map {
             case Some(OrderResponse("ok", "created", Some(order))) =>
@@ -109,10 +109,10 @@ object ApiController extends Controller {
     val ps: Future[PricingStrategy] = request.session.get("cake_token") match {
       case Some(orderToken) =>
         getPiecesCount(orderToken) map { count =>
-          PiecesPricingStrategy.copy(pieces_qty = count)
+          PiecesPricingStrategy.pricingStrategyFor(count)
         }
       case None =>
-        Future { PiecesPricingStrategy }
+        Future { PiecesPricingStrategy.default }
     }
 
     ps map { pricingStrategy =>
