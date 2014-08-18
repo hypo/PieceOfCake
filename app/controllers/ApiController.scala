@@ -2,7 +2,7 @@ package controllers
 
 import client.LiteClient
 import client.LiteObjects._
-import models.PiecesPricingStrategy
+import models.{PricingStrategy, PiecesPricingStrategy}
 import models.PricingStrategyJSONFormatter._
 import play.api.Play
 import play.api.db.slick._
@@ -11,7 +11,8 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import util.ModelUtils
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
+import scala.concurrent.duration.Duration
 
 object ApiController extends Controller {
   import scala.slick.driver.PostgresDriver.simple._
@@ -104,12 +105,21 @@ object ApiController extends Controller {
     }
   }
 
-  def pricingStrategy() = Action { request =>
-    val jsonObj = Json.toJson(PiecesPricingStrategy)
+  def pricingStrategy() = Action.async { request =>
+    val ps: Future[PricingStrategy] = request.session.get("cake_token") match {
+      case Some(orderToken) =>
+        getPiecesCount(orderToken) map { count =>
+          PiecesPricingStrategy.copy(pieces_qty = count)
+        }
+      case None =>
+        Future { PiecesPricingStrategy }
+    }
 
-    request.getQueryString("callback") match {
-      case Some(cb) => Ok(s"${cb}(${jsonObj})")
-      case None     => Ok(jsonObj)
+    ps map { pricingStrategy =>
+      request.getQueryString("callback") match {
+        case Some(cb) => Ok(s"${cb}(${Json.toJson(pricingStrategy)})")
+        case None     => Ok(Json.toJson(pricingStrategy))
+      }
     }
   }
 
