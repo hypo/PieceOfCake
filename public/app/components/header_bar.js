@@ -11,7 +11,11 @@ window.app.HeaderBar = React.createClass({
       React.DOM.div({className: 'header', id: 'navbar'},
         React.DOM.div({className: 'container'},
           React.DOM.div({className: 'title'}, this.props.title),
-          React.DOM.div({className: 'lsf', id: 'btn_back', style: backButtonStyle, onClick: this.handleBackButton}, 'left')
+          React.DOM.img({
+            id: 'btn_back', style: backButtonStyle, onClick: this.handleBackButton,
+            src: "/assets/img/left@2x.png",
+            srcSet: "/assets/img/left.png 1x, /assets/img/left@2x.png 2x"
+          })
         )
       )
     );

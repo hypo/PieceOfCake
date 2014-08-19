@@ -79,12 +79,16 @@ hr {
   text-align: center;
 }
 
+.card_signup .field {
+  padding: 3.5px; /* 28 + 3.5 * 2 = height 34 */
+}
+
 .field {
   border-radius: 4px;
   background-color: white;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 11px; /* 28 + 11 * 2 = height 50 */
   overflow: hidden;
   position: relative;
 }
@@ -95,10 +99,12 @@ hr {
 
 .field.confirm {
   font-size: 14px;
+  letter-spacing: 1px;
 }
 
 .field.price {
   line-height: 1.5em;
+  letter-spacing: 1px;
 }
 
 .field.half {
@@ -126,6 +132,7 @@ hr {
   width: 100%;
   text-align: left;
   margin-top: -1px;
+  letter-spacing: 1px;
 }
 
 .field input.half {
@@ -194,10 +201,11 @@ button.login {
 
 #btn_back {
   position: absolute;
-  top: 3px;
+  top: 8px;
   left: 10px;
-  font-size: 2em;
   cursor: pointer;
+  width: 24px;
+  height: 24px;
 }
 
 .flash_message {
@@ -218,6 +226,7 @@ section.login {
 
 section.signup {
   text-align: center;
+  letter-spacing: 1px;
 }
 
 section.signup a {
@@ -263,6 +272,7 @@ button.frame_qty {
 
 .creditcard_logo {
   padding: 0 10px;
+  width: 40px;
 }
 
 .order_id {
@@ -355,6 +365,10 @@ button.frame_qty {
 
 .fade-leave.fade-leave-active {
   opacity: 0.01;
+}
+
+.card_credit_card, .card_done {
+  letter-spacing: 1px;
 }
 
 /* LigatureSymbols */
