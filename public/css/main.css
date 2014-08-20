@@ -24,22 +24,32 @@ hr {
   background-color: #2C2C2C;
   color: #FFF;
   width: 100%;
-  height: 40px;
+  height: 64px;
 }
 
 .header .title {
   position: absolute;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 100%;
   text-align: center;
   font-weight: bold;
-  line-height: 40px;
+  line-height: 44px;
+  margin-top: 20px;
+}
+
+#btn_back {
+  position: absolute;
+  top: 28px;
+  left: 10px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
 }
 
 .content {
-  margin-top: 40px;
+  margin-top: 64px;
 }
 
 .logo-container {
@@ -79,12 +89,16 @@ hr {
   text-align: center;
 }
 
+.card_signup .field {
+  padding: 3.5px; /* 28 + 3.5 * 2 = height 34 */
+}
+
 .field {
   border-radius: 4px;
   background-color: white;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 11px; /* 28 + 11 * 2 = height 50 */
   overflow: hidden;
   position: relative;
 }
@@ -95,10 +109,12 @@ hr {
 
 .field.confirm {
   font-size: 14px;
+  letter-spacing: 1px;
 }
 
 .field.price {
   line-height: 1.5em;
+  letter-spacing: 1px;
 }
 
 .field.half {
@@ -126,6 +142,7 @@ hr {
   width: 100%;
   text-align: left;
   margin-top: -1px;
+  letter-spacing: 1px;
 }
 
 .field input.half {
@@ -192,14 +209,6 @@ button.login {
   background-color: #F3F3F3;
 }
 
-#btn_back {
-  position: absolute;
-  top: 3px;
-  left: 10px;
-  font-size: 2em;
-  cursor: pointer;
-}
-
 .flash_message {
   position: absolute;
   top: 40px;
@@ -218,6 +227,7 @@ section.login {
 
 section.signup {
   text-align: center;
+  letter-spacing: 1px;
 }
 
 section.signup a {
@@ -263,6 +273,7 @@ button.frame_qty {
 
 .creditcard_logo {
   padding: 0 10px;
+  width: 40px;
 }
 
 .order_id {
@@ -355,6 +366,10 @@ button.frame_qty {
 
 .fade-leave.fade-leave-active {
   opacity: 0.01;
+}
+
+.card_credit_card, .card_done {
+  letter-spacing: 1px;
 }
 
 /* LigatureSymbols */

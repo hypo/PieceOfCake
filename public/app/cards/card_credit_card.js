@@ -5,13 +5,13 @@ window.app.cards.CreditCardCard = React.createClass({
   displayName: 'CreditCardCard',
   render: function() {
     return (
-      React.DOM.div({className: 'content'},
+      React.DOM.div({className: 'content card_credit_card'},
         React.DOM.section({},
           React.DOM.br({}),
           "您可以使用",
-          React.DOM.img({src: "/assets/img/visa.png", srcSet: "/assets/img/visa_2x.png 2x", className: "creditcard_logo"}),
+          React.DOM.img({src: "/assets/img/visa@2x.png", srcSet: "/assets/img/visa.png 2x, /assets/img/visa@2x.png 2x", className: "creditcard_logo"}),
           "或",
-          React.DOM.img({src: "/assets/img/mastercard.png", srcSet: "/assets/img/mastercard_2x.png 2x", className: "creditcard_logo"}),
+          React.DOM.img({src: "/assets/img/mastercard@2x.png", srcSet: "/assets/img/mastercard.png 1x, /assets/img/mastercard@2x.png 2x", className: "creditcard_logo"}),
           "付款。"
         ),
         React.DOM.form({

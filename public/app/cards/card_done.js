@@ -9,10 +9,10 @@ window.app.cards.DoneCard = React.createClass({
         React.DOM.section({},
           "您的訂單編號"
         ),
-        React.DOM.section({},
+        React.DOM.section({style:{"margin-top": "10px"}},
           React.DOM.span({className: 'order_id'}, "#" + this.props.order_id + " 訂購成功")
         ),
-        React.DOM.section({},
+        React.DOM.section({style:{"margin-top": "10px"}},
           React.DOM.span({className: 'shipping_date'}, "預計出貨日 " + this.props.estimated_shipping_date)
         ),
         React.DOM.section({},
