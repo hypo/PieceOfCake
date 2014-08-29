@@ -80,7 +80,9 @@ endpdf file:///tmp/piece.pdf
 
     val pages = pagedImageStreams.map((inputStreamFutures: Seq[Future[InputStream]]) =>
       Future.sequence(inputStreamFutures).map((inputStreams: Seq[InputStream]) => {
-        val page = new PDPage(new PDRectangle(15.24.cm.toFloat, 20.32.cm.toFloat))
+        val pageWidth = 15.24.cm
+        val pageHeight = 20.32.cm
+        val page = new PDPage(new PDRectangle(pageWidth.toFloat, pageHeight.toFloat))
         val images = inputStreams.map(is => new PDJpeg(doc, is))
         val contentStream = new PDPageContentStream(doc, page, true, true)
         val origin_x = (15.24.cm - 12.0.cm) / 2
@@ -93,6 +95,10 @@ endpdf file:///tmp/piece.pdf
               (origin_y + Math.floor(idx / 2) * h).toFloat,
               w.toFloat, h.toFloat)
         }
+        val rectWidth = 13.0.cm
+        val rectHeight = 19.0.cm
+        contentStream.addRect(((pageWidth - rectWidth) / 2).toFloat, ((pageHeight - rectHeight) / 2).toFloat, rectWidth.toFloat, rectHeight.toFloat)
+        contentStream.stroke()
         contentStream.close()
         page
       })

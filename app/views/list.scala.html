@@ -6,7 +6,7 @@
 <div class="pieces">
   <div class="detail_link">
     <a href="@routes.OrderController.showOrder(p.token)">View</a>
-    <a href="@routes.OrderController.showPCD(p.token)">PCD</a>
+    <a href="@routes.OrderController.downloadPDF(p.token)">PDF</a>
   </div>
   @for(sheet <- p.sheets) {
     <div class="sheet">
