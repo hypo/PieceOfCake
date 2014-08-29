@@ -6,6 +6,7 @@ tmp
 .history
 *~
 uploads
+pdfs
 conf/application.conf
 .idea
 .idea_modules
