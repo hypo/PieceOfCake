@@ -189,6 +189,10 @@ button.login {
   z-index: 2;
 }
 
+.coupon_overlay button.nofloat {
+  position: inherit;
+}
+
 .container {
   position: relative;
   width: 320px;

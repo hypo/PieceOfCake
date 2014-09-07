@@ -11,7 +11,8 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import util.ModelUtils
 
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 
 object ApiController extends Controller {
   import controllers.APIControllerHelper._
@@ -50,6 +51,13 @@ import scala.slick.driver.PostgresDriver.simple._
     } getOrElse Future { BadRequest(loginFailResponse) }
   }
 
+  def queryCoupon(couponCode: String) = Action.async { implicit request =>
+    liteClient.coupon(couponCode) map {
+      case Some(QueryCouponResponse("ok", "successful", coupon)) => Ok(Json.toJson(coupon.get))
+      case _ => Ok(mkError("系統錯誤，請稍候再試"))
+    }
+  }
+
   def signup() = Action.async { implicit request =>
     LiteUserFromParams(request) map { user =>
       liteClient.signup(user) map {
@@ -70,7 +78,11 @@ import scala.slick.driver.PostgresDriver.simple._
     sessionInfo map { case (orderToken, userId) =>
       getPiecesCount(orderToken) flatMap { piecesCount =>
         val pricingStrategy = PiecesPricingStrategy.pricingStrategyFor(piecesCount)
-        LiteOrderFromParams(request, userId, orderToken, pricingStrategy) map { order =>
+        val coupon = extractCouponCode(request) flatMap { code =>
+          /* TODO: make it more async */
+          Await.result(liteClient.coupon(code), Duration.Inf)
+        } flatMap { _.coupon } getOrElse LiteCoupon(can_redeem = false)
+        LiteOrderFromParams(request, userId, orderToken, pricingStrategy, coupon) map { order =>
           liteClient.createOrder(order) map {
             case Some(OrderResponse("ok", "created", Some(order))) =>
               Ok(orderOkResponse(order.id.get)).addingToSession(

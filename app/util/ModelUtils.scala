@@ -1,6 +1,6 @@
 package util
 
-import client.LiteObjects.{LiteOrder, LiteUser}
+import client.LiteObjects.{LiteCoupon, LiteOrder, LiteUser}
 import models.PricingStrategy
 import play.api.mvc.{AnyContent, Request}
 
@@ -26,7 +26,14 @@ object ModelUtils {
     )
   }
 
-  def LiteOrderFromParams(request: Request[AnyContent], userId: Int, orderToken: String, pricingStrategy: PricingStrategy): Option[LiteOrder] = {
+  def extractCouponCode(request: Request[AnyContent]): Option[String] = {
+    for {
+      params <- request.body.asFormUrlEncoded map { filterFirstParam(_) };
+      couponCode <- params.get("coupon_code")
+    } yield couponCode
+  }
+
+  def LiteOrderFromParams(request: Request[AnyContent], userId: Int, orderToken: String, pricingStrategy: PricingStrategy, coupon: LiteCoupon): Option[LiteOrder] = {
     for {
       params <- request.body.asFormUrlEncoded map { filterFirstParam(_) };
       name <- params.get("name");
@@ -37,16 +44,18 @@ object ModelUtils {
       city <- params.get("city");
       zipcode <- params.get("zipcode");
       addr <- params.get("addr");
-      total <- pricingStrategy.copy(frame_qty = params.get("frame_qty").map(_.toInt)).total
+      total <- pricingStrategy.copy(frame_qty = params.get("frame_qty").map(_.toInt)).total;
+      totalAfterDiscount = coupon.discountedPrice(total)
     } yield LiteOrder(
       user_id = userId,
-      total = total,
+      total = totalAfterDiscount,
       number_of_pages = 1,
       email = email,
       fullname = name, phone = tel,
       city = city, state = area,
       postcode = zipcode, address = addr,
-      token = orderToken
+      token = orderToken,
+      coupon_id = if (coupon.id < 0) None else Some(coupon.id)
     )
   }
 }
