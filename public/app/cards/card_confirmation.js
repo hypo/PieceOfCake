@@ -38,17 +38,15 @@ window.app.cards.ConfirmationCard = React.createClass({
     }
 
     return (
-      React.DOM.div({className: 'content'},
+      React.DOM.div({className: 'content card_confirmation'},
         React.DOM.section({},
-          React.DOM.div({className: 'field confirm'},
+          React.DOM.div({className: 'field shipping'},
             React.DOM.b({}, 'TO'),
-            React.DOM.br({}),
-            React.DOM.br({}),
+            React.DOM.div({className: 'section_separator'}),
             this.props.name,
             React.DOM.br({}),
             this.props.tel,
-            React.DOM.br({}),
-            React.DOM.br({}),
+            React.DOM.div({className: 'section_separator'}),
             this.props.zipcode,
             React.DOM.br({}),
             app.countries[this.props.country],
@@ -60,7 +58,7 @@ window.app.cards.ConfirmationCard = React.createClass({
           )
         ),
         React.DOM.section({},
-          React.DOM.div({className: 'field price'},
+          React.DOM.div({className: 'field invoice'},
             React.DOM.table({},
               React.DOM.tr({},
                 React.DOM.td({className: 'item'},
@@ -118,15 +116,9 @@ window.app.cards.ConfirmationCard = React.createClass({
                   React.DOM.div({className: 'coupon_overlay', ref: 'coupon_button', onClick: this.enableCoupon},
                     React.DOM.button({}, '輸入 Coupon Code')
                   ),
-                  React.DOM.table({},
-                    React.DOM.tr({},
-                      React.DOM.td({className: 'item'},
-                        React.DOM.input({type: 'text', className: 'coupon', ref: 'coupon_input'})
-                      ),
-                      React.DOM.td({className: 'item'},
-                        React.DOM.button({className: 'coupon', onClick: this.useCoupon}, '確認')
-                      )
-                    )
+                  React.DOM.div({className: 'coupon_input'},
+                    React.DOM.input({type: 'text', className: 'coupon', ref: 'coupon_input'}),
+                    React.DOM.button({className: 'use_coupon', onClick: this.useCoupon}, '確認')
                   )
                 )
               ) : (
@@ -138,7 +130,7 @@ window.app.cards.ConfirmationCard = React.createClass({
           )
         ),
         React.DOM.section({},
-          React.DOM.div({className: 'field'},
+          React.DOM.div({className: 'field estimated_shipping_date'},
             React.DOM.table({},
               React.DOM.tr({},
                 React.DOM.td({className: 'item'},

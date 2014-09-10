@@ -16,9 +16,9 @@ window.app.cards.LoginCard = React.createClass({
   },
   render: function() {
     return (
-      React.DOM.div({className: 'content card_signup'},
+      React.DOM.div({className: 'content card_login'},
         React.DOM.section({className: 'logo-container'},
-          React.DOM.img({className: 'logo', src: '/assets/img/hypo@2x.png', srcSet: '/assets/img/hypo.png 1x, /assets/img/hypo@2x.png 2x', height: 48})
+          React.DOM.img({className: 'logo', src: '/assets/img/hypo@2x.png', srcSet: '/assets/img/hypo.png 1x, /assets/img/hypo@2x.png 2x', height: 44})
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
