@@ -4,6 +4,18 @@ function getValueByName(k) {
   return document.querySelector("[name=\"" + k + "\"]").value;
 }
 
+function getXHR(path, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", path, true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState < 4)
+      return;
+
+    callback(xhr);
+  }
+  xhr.send();
+}
+
 function postXHR(path, data, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open("POST", path, true);
@@ -79,7 +91,8 @@ app.handleAction = function(data) {
           city: data.city,
           zipcode: data.zipcode,
           addr: data.addr,
-          frame_qty: data.frame_qty
+          frame_qty: data.frame_qty,
+          coupon_code: data.coupon ? data.coupon.code : null
         }, function(xhr) {
           if (xhr.status != 200)
             return app.CardStack.flashError("通訊失敗。請稍後再試");

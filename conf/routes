@@ -13,11 +13,12 @@ POST        /upload                             controllers.UploadController.upl
 POST        /piece                              controllers.OrderController.makeOrder
 GET         /piece/list                         controllers.OrderController.list
 GET         /piece/:orderToken.pcd              controllers.OrderController.showPCD(orderToken)
-GET         /piece/:orderToken.pdf             controllers.OrderController.downloadPDF(orderToken)
+GET         /piece/:orderToken.pdf              controllers.OrderController.downloadPDF(orderToken)
 GET         /piece/:orderToken                  controllers.OrderController.showOrder(orderToken)
 
 GET         /api/pricing_strategy               controllers.ApiController.pricingStrategy
 GET         /api/estimated_shipping_date        controllers.ApiController.estimatedShippingDate
+GET         /api/coupon/:couponCode             controllers.ApiController.queryCoupon(couponCode)
 POST        /api/login                          controllers.ApiController.login
 POST        /api/signup                         controllers.ApiController.signup
 POST        /api/create_order                   controllers.ApiController.createOrder

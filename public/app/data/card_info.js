@@ -6,6 +6,11 @@ var CardInfoStore = function() {
   };
 
   this.pricingStrategy = {};
+  this.coupon = {};
+}
+
+CardInfoStore.prototype.setCoupon = function(coupon) {
+  this.coupon = coupon;
 }
 
 CardInfoStore.prototype.setPricingStrategy = function(newPricingStrategy) {
@@ -41,6 +46,15 @@ CardInfoStore.prototype._addPricingInfo = function(data) {
   d['price'] = JSON.parse(JSON.stringify(this.pricingStrategy));
   d['price']['frame'] = d.price.frame * d.frame_qty;
   d['price']['total'] = d.price.pieces * d.price.pieces_qty + d.price.shipping + d.price.frame;
+  d['coupon'] = this.coupon;
+
+  if (this.coupon.id) {
+    if (this.coupon.percent_off) {
+      d['price']['total'] *= (100 - this.coupon.percent_off) / 100;
+    } else if (this.coupon.discount_amount) {
+      d['price']['total'] -= this.coupon.discount_amount;
+    }
+  }
 
   return d;
 }

@@ -41,6 +41,8 @@ class LiteClient(
 
   def estimatedShippingDate() = service("/api/orders/estimated_shipping_date", None).get map { resp => resp.json.asOpt[EstimatedShippingDateResponse] }
 
+  def coupon(couponCode: String) = service(s"/api/coupons/$couponCode", accessToken).get map { resp => resp.json.asOpt[QueryCouponResponse] }
+
   private lazy val accessToken : Option[AccessToken] = Await.result(
     service("/oauth2/access_token", None)
       .withAuth(credential._1, credential._2, WSAuthScheme.BASIC)

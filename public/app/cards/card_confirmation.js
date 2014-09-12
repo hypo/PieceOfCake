@@ -4,13 +4,39 @@ if (window.app.cards == undefined) window.app.cards = {};
 window.app.cards.ConfirmationCard = React.createClass({
   displayName: 'ConfirmationCard',
   enableCoupon: function() {
-    $('.coupon_overlay').fadeOut();
-    document.querySelector('input.coupon').focus();
+    $(this.refs.coupon_button.getDOMNode()).fadeOut();
+    this.refs.coupon_input.getDOMNode().focus();
+  },
+  useCoupon: function () {
+    var couponCode = this.refs.coupon_input.getDOMNode().value;
+    app.CardStack.flashError("確認 Coupon 中...");
+    getXHR("/api/coupon/" + couponCode, function(xhr) {
+      if (xhr.status != 200)
+        return app.CardStack.flashError("通訊失敗。請稍後再試");
+
+      var data = JSON.parse(xhr.responseText);
+      if (!data.id || !data.can_redeem)
+        return app.CardStack.flashError("此 Coupon 已失效或不存在。");
+
+      app.CardInfoStore.setCoupon(data);
+      app.CardStack.forceRender();
+    });
+  },
+  cancelCoupon: function() {
+    app.CardInfoStore.setCoupon({});
+    app.CardStack.forceRender();
   },
   piecesPrice: function() {
     return this.props.price.pieces * this.props.price.pieces_qty;
   },
   render: function() {
+    var discounts = "";
+    if (this.props.coupon.percent_off) {
+      discounts = "- " + this.props.coupon.percent_off + "%";
+    } else if (this.props.coupon.discount_amount) {
+      discounts = "- " + this.props.coupon.discount_amount + " NTD";
+    }
+
     return (
       React.DOM.div({className: 'content'},
         React.DOM.section({},
@@ -61,6 +87,16 @@ window.app.cards.ConfirmationCard = React.createClass({
                 )
               ),
               React.DOM.tr({},
+                this.props.coupon.id ?
+                  React.DOM.td({className: 'item'},
+                    'Discount'
+                  ) : (undefined),
+                this.props.coupon.id ?
+                  React.DOM.td({className: 'item_detail'},
+                    discounts
+                  ) : (undefined)
+              ),
+              React.DOM.tr({},
                 React.DOM.td({colSpan: 2}, React.DOM.hr({noshade: 'noshade'}))
               ),
               React.DOM.tr({},
@@ -74,18 +110,28 @@ window.app.cards.ConfirmationCard = React.createClass({
             )
           )
         ),
-        React.DOM.section({style: {display: 'none'}},
+        React.DOM.section({},
           React.DOM.div({className: 'field coupon'},
-            React.DOM.div({className: 'coupon_overlay', onClick: this.enableCoupon},
-              React.DOM.button({}, '輸入 Coupon Code')
-            ),
-            React.DOM.table({},
-              React.DOM.tr({},
-                React.DOM.td({className: 'item'},
-                  React.DOM.input({type: 'text', className: 'coupon', name: 'coupon'})
-                ),
-                React.DOM.td({className: 'item'},
-                  React.DOM.button({className: 'coupon'}, '確認')
+            (
+              !this.props.coupon.code ? (
+                React.DOM.div({},
+                  React.DOM.div({className: 'coupon_overlay', ref: 'coupon_button', onClick: this.enableCoupon},
+                    React.DOM.button({}, '輸入 Coupon Code')
+                  ),
+                  React.DOM.table({},
+                    React.DOM.tr({},
+                      React.DOM.td({className: 'item'},
+                        React.DOM.input({type: 'text', className: 'coupon', ref: 'coupon_input'})
+                      ),
+                      React.DOM.td({className: 'item'},
+                        React.DOM.button({className: 'coupon', onClick: this.useCoupon}, '確認')
+                      )
+                    )
+                  )
+                )
+              ) : (
+                React.DOM.div({className: 'coupon_overlay', onClick: this.cancelCoupon},
+                  React.DOM.button({className: 'nofloat'}, '已使用：' + this.props.coupon.code)
                 )
               )
             )
