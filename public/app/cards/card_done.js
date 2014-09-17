@@ -15,7 +15,7 @@ window.app.cards.DoneCard = React.createClass({
         React.DOM.section({style:{"margin-top": "10px"}},
           React.DOM.span({className: 'shipping_date'}, "預計出貨日 " + this.props.estimated_shipping_date)
         ),
-        React.DOM.section({},
+        React.DOM.section({className: "description"},
           React.DOM.br({}),
           "請利用以下連結查看訂單情形。",
           React.DOM.br({}),

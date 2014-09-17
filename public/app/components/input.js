@@ -8,20 +8,19 @@ window.app.Input = React.createClass({
     };
   },
   render: function() {
+    var placeholder = this.props.placeholder || "";
+    if (this.props.label)
+      placeholder = this.props.label + " " + placeholder;
+
     return (
       React.DOM.div({className: 'field'},
-        React.DOM.table({},
-          React.DOM.tr({},
-            React.DOM.td({}, this.props.label),
-            React.DOM.td({}, React.DOM.input({
-              type: this.props.type,
-              name: this.props.name,
-              placeholder: this.props.placeholder,
-              defaultValue: this.props.defaultValue,
-              pattern: this.props.pattern
-            }))
-          )
-        )
+        React.DOM.input({
+          type: this.props.type,
+          name: this.props.name,
+          placeholder: placeholder,
+          defaultValue: this.props.defaultValue,
+          pattern: this.props.pattern
+        })
       )
     );
   }
