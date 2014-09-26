@@ -34,6 +34,9 @@ window.app.cards.LoginCard = React.createClass({
           React.DOM.button({className: 'login', onClick: this.handleLogin}, '登入')
         ),
         React.DOM.section({className: 'signup'},
+          React.DOM.button({className: 'signup', onClick: this.handleSignup}, '註冊')
+        ),
+        React.DOM.section({className: 'signup'},
           React.DOM.a({href: '#', onClick: this.handleSignup}, "沒有 hypo 帳號？申請免費帳號。")
         )
       )
