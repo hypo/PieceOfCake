@@ -199,13 +199,17 @@ button {
   font-size: 11px;
 }
 
-.card_login button.login {
+.card_login button.login, .card_login button.signup {
   width: 200px;
   height: 35px;
 
   margin-top: 25px;
-
   font-size: 12px;
+}
+
+.card_login button.signup {
+  margin-top: 0;
+  background-color: #b6b6b6;
 }
 
 .card_shipping {
