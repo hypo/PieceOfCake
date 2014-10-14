@@ -1,3 +1,5 @@
+/* basics */
+
 html, body {
   margin: 0;
   padding: 0;
@@ -5,8 +7,8 @@ html, body {
 
 body {
   font-family: 'Helvetica', 'STHeitiTC-Light', 'Droid Sans', sans;
-  background-color: #F3F3F3;
-  font-size: 16px;
+  background-color: #E5E5E5;
+  font-size: 12px;
 }
 
 button, input, textarea, select, isindex, datagrid {
@@ -16,6 +18,12 @@ button, input, textarea, select, isindex, datagrid {
 hr {
   border: 1px solid rgb(128, 128, 128);
 }
+
+b {
+  font-weight: bold;
+}
+
+/* header bar */
 
 .header {
   position: fixed;
@@ -37,6 +45,7 @@ hr {
   font-weight: bold;
   line-height: 44px;
   margin-top: 20px;
+  font-size: 16px;
 }
 
 #btn_back {
@@ -48,14 +57,10 @@ hr {
   height: 24px;
 }
 
+/* card container */
+
 .content {
   margin-top: 64px;
-}
-
-.logo-container {
-  text-align: center;
-  padding-top: 100px;
-  padding-bottom: 30px;
 }
 
 #actions {
@@ -74,124 +79,10 @@ hr {
   text-align: center;
   font-weight: bold;
   cursor: pointer;
+  font-size: 20px;
 }
 
-#card-viewport {
-  -webkit-overflow-scrolling: touch;
-}
-
-.content section {
-  margin: 0 23px;
-}
-
-.content section header {
-  font-weight: bold;
-  text-align: center;
-}
-
-.card_signup .field {
-  padding: 3.5px; /* 28 + 3.5 * 2 = height 34 */
-}
-
-.field {
-  border-radius: 4px;
-  background-color: white;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 11px; /* 28 + 11 * 2 = height 50 */
-  overflow: hidden;
-  position: relative;
-}
-
-.field b {
-  font-weight: bold;
-}
-
-.field.confirm {
-  font-size: 14px;
-  letter-spacing: 1px;
-}
-
-.field.price {
-  line-height: 1.5em;
-  letter-spacing: 1px;
-}
-
-.field.half {
-  display: inline-block;
-  width: 102px;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 10px;
-}
-
-.field.half:first-child {
-  margin-left: 0;
-}
-
-.field label {
-  font-weight: bold;
-}
-
-.center-placeholder input::-webkit-input-placeholder {
-  text-align: center;
-}
-
-.field input, .field select {
-  border: 0;
-  width: 100%;
-  text-align: left;
-  margin-top: -1px;
-  letter-spacing: 1px;
-}
-
-.field input.half {
-  border: 0;
-  width: 90px;
-}
-
-.field textarea {
-  width: 100%;
-  border: 0;
-}
-
-.field table {
-  width: 100%;
-}
-
-.field table tr td:first-child {
-  white-space:nowrap;
-}
-
-.field table .item_detail {
-  text-align: right;
-}
-
-button {
-  background-color: #FF4843;
-  border: 0;
-  color: #FFF;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-button.login {
-  width: 100%;
-  height: 40px;
-}
-
-.coupon_overlay button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 2;
-}
-
-.coupon_overlay button.nofloat {
-  position: inherit;
-}
+/* card basics */
 
 .container {
   position: relative;
@@ -203,6 +94,7 @@ button.login {
   position: relative;
   width: 100%;
   min-height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .content {
@@ -210,12 +102,12 @@ button.login {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #F3F3F3;
+  background-color: #E5E5E5;
 }
 
 .flash_message {
   position: absolute;
-  top: 40px;
+  top: 64px;
   left: 0;
   width: 100%;
   background-color: red;
@@ -224,71 +116,231 @@ button.login {
   padding: 10px 0;
 }
 
-section.login {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
+/* common card stylings */
 
-section.signup {
-  text-align: center;
-  letter-spacing: 1px;
-}
+.field {
+  width: 274px;
 
-section.signup a {
-  text-decoration: none;
-  color: #4F5252;
-}
-
-.toolbar {
-  padding: 10px;
-}
-
-input.frame_qty {
   border-radius: 4px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 10px;
+
+  font-size: 13px;
+  letter-spacing: 1px;
   background-color: #FFF;
+}
+
+.field input, .field select, .field textarea {
+  width: 274px;
+  height: 50px;
+
   border: 0;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  margin-right: 10px;
-}
+  padding: 17px;
 
-button.frame_qty {
-  width: 30px;
-  height: 30px;
-  border-radius: 20px;
-  text-align: center;
   background-color: #FFF;
+}
+
+.field select {
+  width: 240px;
+  margin-left: 17px;
+}
+
+.field textarea {
+  height: 105px;
+}
+
+.field input::-webkit-input-placeholder {
+  color: #000;
+}
+
+button {
+  border: 0;
+  border-radius: 4px;
+  background-color: #FF4843;
+  color: #FFF;
+}
+
+/* card specifics */
+
+.card_login .logo-container {
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 56px;
+}
+
+.card_login .field, .card_login .field input {
+  width: 200px;
+  height: 35px;
+}
+
+.card_login .field input {
+  padding: 0 17px;
+  font-size: 12px;
+}
+
+.card_login .field input::-webkit-input-placeholder {
+  color: #B6B6B6;
+}
+
+.card_login section.login, .card_login section.signup {
+  text-align: center;
+}
+
+.card_login section.signup {
+  margin-top: 10px;
+  font-size: 11px;
+}
+
+.card_login section.signup a {
   color: #4A4A4A;
-  padding: 5px;
-  margin: 0 5px;
-  font-size: 20px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 11px;
 }
 
-.field.coupon {
-  padding: 0;
-  padding-left: 10px;
+.card_login button.login, .card_login button.signup {
+  width: 200px;
+  height: 35px;
+
+  margin-top: 25px;
+  font-size: 12px;
 }
 
-.field.coupon button.coupon {
+.card_login button.signup {
+  margin-top: 0;
+  background-color: #b6b6b6;
+}
+
+.card_shipping {
+  padding-top: 17px;
+}
+
+.card_confirmation .field {
+  box-sizing: border-box;
+}
+
+.card_confirmation .shipping {
+  padding: 16px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.card_confirmation .estimated_shipping_date {
+  padding: 13px;
+}
+
+.card_confirmation .shipping .section_separator {
+  height: 12px;
+}
+
+.card_confirmation .invoice {
+  padding: 29px;
+  -webkit-border-box;
+  font-size: 12px;
+}
+
+.card_confirmation table {
   width: 100%;
+}
+
+.card_confirmation table tr td {
+  padding-bottom: 8px;
+}
+
+.card_confirmation table tr:last-child td {
+  padding-bottom: 0;
+}
+
+.card_confirmation table tr td.item {
+  font-weight: bold;
+}
+
+.card_confirmation table tr td.item_detail {
+  text-align: right;
+}
+
+.card_confirmation .coupon {
+  position: relative;
+  width: 274px;
   height: 40px;
 }
 
-.creditcard_logo {
-  padding: 0 10px;
-  width: 40px;
+.card_confirmation .coupon .coupon_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }
 
-.order_id {
+.card_confirmation .coupon .coupon_overlay button {
+  width: 274px;
+  height: 40px;
+
+  font-size: 13px;
+}
+
+.card_confirmation .coupon .coupon_input {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 0;
+}
+
+.card_confirmation .coupon .coupon_input .use_coupon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 40px;
+
+  font-size: 13px;
+}
+
+.card_credit_card .description {
+  font-size: 12px;
+  text-align: center;
+}
+
+.card_credit_card .description img {
+  height: 20px;
+  vertical-align: middle;
+  padding: 0 5px;
+}
+
+.card_done {
+  padding-top: 17px;
+  letter-spacing: 1px;
+}
+
+.card_done .order_id {
   background-color: #FF4843;
-  padding: 5px;
-  color: #FFFFFF;
+  color: #FFF;
+  border-radius: 4px;
+  height: 14px;
+  line-height: 14px;
+  display: inline-block;
+  padding: 4px;
 }
 
-.shipping_date {
-  background-color: #FFFFFF;
-  padding: 5px;
+.card_done .shipping_date {
+  background-color: #FFF;
+  border-radius: 4px;
+  height: 14px;
+  line-height: 14px;
+  display: inline-block;
+  padding: 4px;
+}
+
+.card_done .description {
+  line-height: 18px;
+}
+
+/* helpers */
+
+.center-placeholder input::-webkit-input-placeholder {
+  text-align: center;
 }
 
 /* Card Animation */
@@ -309,27 +361,6 @@ button.frame_qty {
 
 .slide-leave.slide-leave-active {
   -webkit-transform: translate3d(-100%, 0, 0);
-}
-
-.card_done {
-  line-height: 2.0em;
-  color: #727272;
-}
-
-.card_done .big_field {
-  background-color: white;
-  color: black;
-  padding: 10px;
-  border-radius: 10px;
-  margin-left: -10px;
-  box-sizing: border-box;
-  width: 280px;
-  margin-top: 10px;
-}
-
-.card_done b {
-  color: black;
-  font-weight: bold;
 }
 
 /* --- */
@@ -370,10 +401,6 @@ button.frame_qty {
 
 .fade-leave.fade-leave-active {
   opacity: 0.01;
-}
-
-.card_credit_card, .card_done {
-  letter-spacing: 1px;
 }
 
 /* LigatureSymbols */

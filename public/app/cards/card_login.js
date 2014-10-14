@@ -16,9 +16,9 @@ window.app.cards.LoginCard = React.createClass({
   },
   render: function() {
     return (
-      React.DOM.div({className: 'content card_signup'},
+      React.DOM.div({className: 'content card_login'},
         React.DOM.section({className: 'logo-container'},
-          React.DOM.img({className: 'logo', src: '/assets/img/hypo@2x.png', srcSet: '/assets/img/hypo.png 1x, /assets/img/hypo@2x.png 2x', height: 48})
+          React.DOM.img({className: 'logo', src: '/assets/img/hypo@2x.png', srcSet: '/assets/img/hypo.png 1x, /assets/img/hypo@2x.png 2x', height: 44})
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
@@ -32,6 +32,9 @@ window.app.cards.LoginCard = React.createClass({
         ),
         React.DOM.section({className: 'login'},
           React.DOM.button({className: 'login', onClick: this.handleLogin}, '登入')
+        ),
+        React.DOM.section({className: 'signup'},
+          React.DOM.button({className: 'signup', onClick: this.handleSignup}, '註冊')
         ),
         React.DOM.section({className: 'signup'},
           React.DOM.a({href: '#', onClick: this.handleSignup}, "沒有 hypo 帳號？申請免費帳號。")

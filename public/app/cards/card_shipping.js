@@ -5,7 +5,7 @@ window.app.cards.ShippingCard = React.createClass({
   displayName: 'ShippingCard',
   render: function() {
     return (
-      React.DOM.div({className: 'content'},
+      React.DOM.div({className: 'content card_shipping'},
         React.DOM.section({},
           React.DOM.div({className: 'field'},
             React.DOM.input({type: 'text', name: 'name', placeholder: '收件人姓名', defaultValue: this.props.name})
