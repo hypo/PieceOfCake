@@ -89,11 +89,10 @@ object OrderController extends Controller {
     }
   }
 
-  def list = Action.async { implicit request =>
+  def list(page: Int = 0, pageSize: Int = 50) = Action.async { implicit request =>
     Future {
-      DB.withSession { implicit session =>
-        Ok(views.html.list(Pieces.list))
-      }
+      val p = PiecesDAO.list(page, pageSize)
+      Ok(views.html.list(p))
     }
   }
 }

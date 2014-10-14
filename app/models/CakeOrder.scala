@@ -17,6 +17,11 @@ import java.sql.Timestamp
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
+case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
+  lazy val prev = Option(page - 1).filter(_ >= 0)
+  lazy val next = Option(page + 1).filter(_ => (offset + items.size) < total)
+}
+
 object PieceJsonReaders {
   import play.api.libs.json.Reads._
 
@@ -148,5 +153,15 @@ class Pieces(tag: Tag) extends Table[Piece](tag, "piece") {
 }
 
 object PiecesDAO {
+  import play.api.db.slick.DB
+  import play.api.Play.current
+
   val Pieces = TableQuery[Pieces]
+
+  def list(page: Int = 0, pageSize: Int = 20): Page[Piece] = DB.withTransaction { implicit  session => {
+    val offset = pageSize * page
+    val items = Pieces.sortBy(_.createdAt).drop(offset).take(pageSize).list
+    val totalRows: Int = Pieces.length.run
+    Page(items, page = page, offset = offset, totalRows)
+  }}
 }

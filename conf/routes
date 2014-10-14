@@ -11,7 +11,7 @@ POST        /upload/:hash                       controllers.UploadController.upl
 POST        /upload                             controllers.UploadController.upload
 
 POST        /piece                              controllers.OrderController.makeOrder
-GET         /piece/list                         controllers.OrderController.list
+GET         /piece/list                         controllers.OrderController.list(page: Int ?= 0, pageSize: Int ?= 20)
 GET         /piece/:orderToken.pcd              controllers.OrderController.showPCD(orderToken)
 GET         /piece/:orderToken.pdf              controllers.OrderController.downloadPDF(orderToken)
 GET         /piece/:orderToken                  controllers.OrderController.showOrder(orderToken)

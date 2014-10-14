@@ -1,13 +1,48 @@
-@(pieces: Seq[models.Piece])
+@(currentPage: Page[models.Piece])
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage: Int) = @{
+    routes.OrderController.list(page = newPage, pageSize = 20)
+}
 
 @main("Pieces") {
 
-@for(p <- pieces) {
+<div id="pagination" class="pagination">
+    <ul>
+        @currentPage.prev.map { page =>
+        <li class="prev">
+            <a href="@link(page)">&larr; Previous</a>
+        </li>
+        }.getOrElse {
+            <li class="prev disabled">
+                <a>&larr; Previous</a>
+            </li>
+        }
+        <li class="current">
+            <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + currentPage.items.size) of @currentPage.total</a>
+        </li>
+        @currentPage.next.map { page =>
+        <li class="next">
+            <a href="@link(page)">Next &rarr;</a>
+        </li>
+        }.getOrElse {
+            <li class="next disabled">
+                <a>Next &rarr;</a>
+            </li>
+        }
+    </ul>
+</div>
+
+@for(p <- currentPage.items) {
 <div class="pieces">
   <div class="detail_link">
+    <strong>@p.token</strong>
     <a href="@routes.OrderController.showOrder(p.token)">View</a>
     <a href="@routes.OrderController.downloadPDF(p.token)">PDF</a>
   </div>
+  <div class="date">@p.createdAt</div>
   @for(sheet <- p.sheets) {
     <div class="sheet">
       <div class="qty">×@sheet.qty</div>
