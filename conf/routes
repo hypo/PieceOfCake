@@ -14,6 +14,9 @@ POST        /piece                              controllers.OrderController.make
 GET         /piece/list                         controllers.OrderController.list(page: Int ?= 0, pageSize: Int ?= 20)
 GET         /piece/:orderToken.pcd              controllers.OrderController.showPCD(orderToken)
 GET         /piece/:orderToken.pdf              controllers.OrderController.downloadPDF(orderToken)
+GET         /piece/:orderToken.png              controllers.OrderController.thumbnail(orderToken: String, sheetIndex: Int = 0)
+GET         /piece/:orderToken/:sheetIndex.png  controllers.OrderController.thumbnail(orderToken: String, sheetIndex: Int)
+
 GET         /piece/:orderToken                  controllers.OrderController.showOrder(orderToken)
 
 GET         /api/pricing_strategy               controllers.ApiController.pricingStrategy

@@ -1,6 +1,6 @@
 package models
 
-import java.io.{InputStream, ByteArrayInputStream}
+import java.io.{InputStream, ByteArrayInputStream, File}
 
 import org.apache.pdfbox.pdmodel.common.PDRectangle
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
@@ -14,8 +14,14 @@ import scala.slick.driver.PostgresDriver.simple._
 import scala.language.postfixOps
 import java.sql.Timestamp
 
+import play.api._
+import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
+
+import javax.imageio._
+import java.awt.{Image, Color}
+import java.awt.image._
 
 case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
   lazy val prev = Option(page - 1).filter(_ >= 0)
@@ -57,6 +63,8 @@ object helper {
 case class Photo(source: String, url: String)
 case class PieceOfSheet(qty: Int, photos: List[Photo]) {
   import helper._
+  import scala.concurrent.ExecutionContext.Implicits.global
+  import play.api.Play.current
 
   def pcdString: String =
 s"""
@@ -68,18 +76,16 @@ ${
 }
 endpdf file:///tmp/piece.pdf
 """
+
+  def inputStreamOf(p: Photo): Future[InputStream] = {
+    val bytes: Future[Array[Byte]] =
+      WS.url(p.url).getStream().flatMap { response =>
+        response._2 |>>> Iteratee.consume[Array[Byte]]()
+      }
+    bytes.map(new ByteArrayInputStream(_))
+  }
+
   def pdfPages(doc: PDDocument): Seq[Future[PDPage]] = {
-    import scala.concurrent.ExecutionContext.Implicits.global
-    import play.api.Play.current
-
-    def inputStreamOf(p: Photo): Future[InputStream] = {
-      val bytes: Future[Array[Byte]] =
-        WS.url(p.url).getStream().flatMap { response =>
-          response._2 |>>> Iteratee.consume[Array[Byte]]()
-        }
-      bytes.map(new ByteArrayInputStream(_))
-    }
-
     val pagedImageStreams: Seq[Seq[Future[InputStream]]] = photos.grouped(6)
       .map(sixPhotos => sixPhotos.map(inputStreamOf)).toSeq
 
@@ -109,6 +115,22 @@ endpdf file:///tmp/piece.pdf
       })
     )
     List.fill(qty)(pages).flatten
+  }
+
+  def thumbnail(path: String, sideLength: Int = 60): Future[RenderedImage] = {
+    Future.sequence(photos.map(p => inputStreamOf(p).map(ImageIO.read))).map((images: Seq[BufferedImage]) => {
+      val canvas = new BufferedImage(sideLength * 3, sideLength * 4, BufferedImage.TYPE_INT_RGB)
+      val g = canvas.getGraphics
+
+      images.take(12).zipWithIndex.foreach { case (img, idx) =>
+        Logger.info(s"${img.getWidth} x ${img.getHeight}")
+        val rescaled = img.getScaledInstance(sideLength, sideLength, Image.SCALE_AREA_AVERAGING)
+        g.drawImage(rescaled, sideLength * (idx % 3), sideLength * (idx / 3), sideLength, sideLength, null)
+      }
+
+      ImageIO.write(canvas, "png", new File(path))
+      canvas
+    })
   }
 }
 

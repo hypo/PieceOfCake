@@ -24,6 +24,8 @@ object OrderController extends Controller {
   def pdfPathForToken(token: String): String =
     Play.getFile("pdfs").getAbsolutePath + "/" + token + ".pdf"
 
+  def thumbnailPathForToken(token: String, sheetIndex: Int): String =
+    Play.getFile("thumbnails").getAbsolutePath + "/" + token + "_" + sheetIndex + ".png"
 
   def makeOrder = Action.async(parse.tolerantJson(maxLength = 2 * 1024 * 1024)) { request =>
     Logger.info("receive: " + request.body)
@@ -73,6 +75,28 @@ object OrderController extends Controller {
         }).getOrElse(
             Future { NotFound("Order Not Found") }
           )
+      }
+    }
+  }
+
+  def thumbnail(orderToken: String, sheetIndex: Int = 0) = Action.async { implicit request =>
+    val jpgFile = new File(thumbnailPathForToken(orderToken, sheetIndex))
+    if (jpgFile.exists()) {
+      Future {
+        Ok.sendFile(content = jpgFile, inline = true)
+      }
+    } else {
+      DB.withSession { implicit session =>
+        Pieces.filter(p => p.token === orderToken).firstOption.flatMap(p => {
+          java.nio.file.Files.createDirectories(jpgFile.toPath.getParent)
+          p.sheets.lift(sheetIndex)
+        }).map(sheet => 
+          sheet.thumbnail(jpgFile.getAbsolutePath).map(img => 
+            Ok.sendFile(content = jpgFile, inline = true)
+          )
+        ).getOrElse(
+          Future { NotFound("Order Not Found") }
+        )
       }
     }
   }
