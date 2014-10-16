@@ -27,5 +27,9 @@ POST        /api/signup                         controllers.ApiController.signup
 POST        /api/create_order                   controllers.ApiController.createOrder
 POST        /api/credit_card                    controllers.ApiController.creditCard
 
+GET         /callback                           org.pac4j.play.CallbackController.callback()
+POST        /callback                           org.pac4j.play.CallbackController.callback()
+GET         /logout                             org.pac4j.play.CallbackController.logoutAndRedirect()
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                       controllers.Assets.at(path="/public", file)

@@ -1,22 +1,23 @@
 package controllers
 
 import java.io.File
+import scala.collection.JavaConverters._
 
 import models._
+import org.pac4j.oauth.profile.twitter.TwitterProfile
 
 import play.api._
 import play.api.mvc._
 import play.api.libs.json._
-import play.api.data._
-import play.api.data.Forms._
 import play.api.db.slick.DB
-import play.api.data.validation.Constraints._
 import models.PieceJsonReaders._
 
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
 
-object OrderController extends Controller {
+import org.pac4j.play.scala._
+
+object OrderController extends ScalaController {
   import scala.slick.driver.PostgresDriver.simple._
   import play.api.Play.current
   import models.PiecesDAO._
@@ -113,10 +114,19 @@ object OrderController extends Controller {
     }
   }
 
-  def list(page: Int = 0, pageSize: Int = 50) = Action.async { implicit request =>
-    Future {
-      val p = PiecesDAO.list(page, pageSize)
-      Ok(views.html.list(p))
+  def list(page: Int = 0, pageSize: Int = 50) = RequiresAuthentication("TwitterClient") { profile =>
+    Action.async { implicit request =>
+      Future {
+        val twitterProfile = profile.asInstanceOf[TwitterProfile]
+        val whitelist: Set[String]= Play.current.configuration.getStringList("twitter.allowed_account").get.asScala.toSet
+        if (whitelist(twitterProfile.getUsername)) {
+          val p = PiecesDAO.list(page, pageSize)
+          Ok(views.html.list(p))
+        } else {
+          Unauthorized("Unauthorized user.")
+        }
+      }
     }
+
   }
 }

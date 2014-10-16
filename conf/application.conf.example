@@ -1,3 +1,8 @@
-lite.username: ""
-lite.password: ""
-lite.baseurl:  "http://lite.hypo.cc"
+lite.username=""
+lite.password=""
+lite.baseurl="http://lite.hypo.cc"
+
+twitter.key=""
+twitter.secret=""
+twitter.callback="http://localhost:9000/callback"
+twitter.allowed_account=""
