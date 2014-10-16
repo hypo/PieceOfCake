@@ -182,7 +182,7 @@ object PiecesDAO {
 
   def list(page: Int = 0, pageSize: Int = 20): Page[Piece] = DB.withTransaction { implicit  session => {
     val offset = pageSize * page
-    val items = Pieces.sortBy(_.createdAt).drop(offset).take(pageSize).list
+    val items = Pieces.sortBy(_.createdAt.desc).drop(offset).take(pageSize).list
     val totalRows: Int = Pieces.length.run
     Page(items, page = page, offset = offset, totalRows)
   }}
