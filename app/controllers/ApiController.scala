@@ -34,6 +34,10 @@ import scala.slick.driver.PostgresDriver.simple._
     )
   }
 
+  def mobile(lang: String = "zh") = Action { implicit request =>
+    Ok(views.html.mobile(lang))
+  }
+
   def login() = Action.async { implicit request =>
     val credentials = for (
       params <- request.body.asFormUrlEncoded;

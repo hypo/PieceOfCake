@@ -3,8 +3,9 @@
 # ~~~~
 
 # Home page
-GET         /mobile                             controllers.Assets.at(path="/public", file="index.html")
 GET         /mobile/start                       controllers.ApiController.start
+GET         /mobile/:lang                       controllers.ApiController.mobile(lang)
+GET         /mobile                             controllers.ApiController.mobile(lang = "zh")
 
 GET         /upload/:hash                       controllers.UploadController.getHash(hash)
 POST        /upload/:hash                       controllers.UploadController.uploadToHash(hash)
