@@ -169,6 +169,16 @@ button {
   padding-bottom: 56px;
 }
 
+.card_login .flag {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.card_login .language-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
 .card_login .field, .card_login .field input {
   width: 200px;
   height: 35px;

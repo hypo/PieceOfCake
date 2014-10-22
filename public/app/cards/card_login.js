@@ -38,6 +38,17 @@ window.app.cards.LoginCard = React.createClass({
         ),
         React.DOM.section({className: 'signup'},
           React.DOM.a({href: '#', onClick: this.handleSignup}, _("GO_SIGNUP_ACCOUNT"))
+        ),
+        React.DOM.section({className: 'language-container'},
+          React.DOM.a({href: '/mobile/zh'}, 
+            React.DOM.img({className: 'flag', src: '/assets/img/tw.png', width: 32, height: 21})
+          ),
+          React.DOM.a({href: '/mobile/ja'}, 
+            React.DOM.img({className: 'flag', src: '/assets/img/jp.png', width: 32, height: 21})
+          ),
+          React.DOM.a({href: '/mobile/en'},
+            React.DOM.img({className: 'flag', src: '/assets/img/us.png', width: 32, height: 21})
+          )
         )
       )
     );
