@@ -84,7 +84,7 @@ import scala.slick.driver.PostgresDriver.simple._
         } flatMap { _.coupon } getOrElse LiteCoupon(can_redeem = false)
         LiteOrderFromParams(request, userId, orderToken, pricingStrategy, coupon) map { order =>
           liteClient.createOrder(order) map {
-            case Some(OrderResponse("ok", "created", Some(order))) =>
+            case Some(OrderResponse("ok", _, Some(order))) =>
               Ok(orderOkResponse(order.id.get)).addingToSession(
                 "order_id" -> order.id.get.toString
               )
