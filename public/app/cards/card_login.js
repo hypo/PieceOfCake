@@ -22,22 +22,22 @@ window.app.cards.LoginCard = React.createClass({
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
-            React.DOM.input({type: 'email', name: 'email', placeholder: 'EMAIL'})
+            React.DOM.input({type: 'email', name: 'email', placeholder: _('EMAIL_PLACEHOLDER')})
           )
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field center-placeholder'},
-            React.DOM.input({type: 'password', name: 'password', placeholder: 'PASSWORD'})
+            React.DOM.input({type: 'password', name: 'password', placeholder: _('PASSWORD_PLACEHOLDER')})
           )
         ),
         React.DOM.section({className: 'login'},
-          React.DOM.button({className: 'login', onClick: this.handleLogin}, '登入')
+          React.DOM.button({className: 'login', onClick: this.handleLogin}, _('LOGIN'))
         ),
         React.DOM.section({className: 'signup'},
-          React.DOM.button({className: 'signup', onClick: this.handleSignup}, '註冊')
+          React.DOM.button({className: 'signup', onClick: this.handleSignup}, _('SIGNUP'))
         ),
         React.DOM.section({className: 'signup'},
-          React.DOM.a({href: '#', onClick: this.handleSignup}, "沒有 hypo 帳號？申請免費帳號。")
+          React.DOM.a({href: '#', onClick: this.handleSignup}, _("GO_SIGNUP_ACCOUNT"))
         )
       )
     );

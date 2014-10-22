@@ -40,7 +40,7 @@ app.handleAction = function(data) {
         var email = getValueByName('email'), pw = getValueByName('password');
         postXHR("/api/login", {email: email, password: pw}, function(xhr){
           if (xhr.status != 200)
-            return app.CardStack.flashError("登入錯誤，請稍候再試");
+            return app.CardStack.flashError(_("LOGIN_ERROR"));
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
@@ -48,7 +48,7 @@ app.handleAction = function(data) {
         break;
       case "signup":
         if (getValueByName('password') != getValueByName('password2')) {
-          return app.CardStack.flashError("密碼兩次輸入不符，請修正後再試");
+          return app.CardStack.flashError(_("PASSWORD_NOT_MATCH"));
         }
 
         var registerData = {};
@@ -58,7 +58,7 @@ app.handleAction = function(data) {
 
         postXHR("/api/signup", registerData, function(xhr){
           if (xhr.status != 200)
-            return app.CardStack.flashError("註冊錯誤，請稍候再試");
+            return app.CardStack.flashError(_("SIGNUP_ERROR"));
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
@@ -95,7 +95,7 @@ app.handleAction = function(data) {
           coupon_code: data.coupon ? data.coupon.code : null
         }, function(xhr) {
           if (xhr.status != 200)
-            return app.CardStack.flashError("通訊失敗。請稍後再試");
+            return app.CardStack.flashError(_("GENERAL_ERROR"));
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);
@@ -111,7 +111,7 @@ app.handleAction = function(data) {
           cvv: data.cvv
         }, function(xhr) {
           if (xhr.status != 200)
-            return app.CardStack.flashError("通訊失敗。請稍後再試");
+            return app.CardStack.flashError(_("GENERAL_ERROR"));
 
           var data = JSON.parse(xhr.responseText);
           app.handleAction(data);

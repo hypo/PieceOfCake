@@ -7,19 +7,19 @@ window.app.cards.SignupCard = React.createClass({
     return (
       React.DOM.div({className: 'content'},
         React.DOM.section({},
-          app.Input({label: "姓名", name: "name"})
+          app.Input({label: _("NAME"), name: "name"})
         ),
         React.DOM.section({},
-          app.Input({type:"tel", label: "電話", name: "tel"})
+          app.Input({type:"tel", label: _("TEL"), name: "tel"})
         ),
         React.DOM.section({},
-          app.Input({type:"email", label: "信箱", name: "email", placeholder: "我們會寄成功訊息到您的信箱"})
+          app.Input({type:"email", label: _("EMAIL"), name: "email", placeholder: _("EMAIL_EXPLANATION")})
         ),
         React.DOM.section({},
-          app.Input({label: "密碼", name: "password", type: "password"})
+          app.Input({label: _("PASSWORD"), name: "password", type: "password"})
         ),
         React.DOM.section({},
-          app.Input({label: "確認密碼", name: "password2", type: "password"})
+          app.Input({label: _("PASSWORD_CONFIRM"), name: "password2", type: "password"})
         )
       )
     );

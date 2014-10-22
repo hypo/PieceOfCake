@@ -7,17 +7,17 @@ window.app.cards.DoneCard = React.createClass({
     return (
       React.DOM.div({className: 'content card_done'},
         React.DOM.section({},
-          "您的訂單編號"
+          _("YOUR_ORDER_NO")
         ),
         React.DOM.section({style:{"margin-top": "10px"}},
-          React.DOM.span({className: 'order_id'}, "#" + this.props.order_id + " 訂購成功")
+          React.DOM.span({className: 'order_id'}, "#" + this.props.order_id + _("ORDER_SUCCESSFUL"))
         ),
         React.DOM.section({style:{"margin-top": "10px"}},
-          React.DOM.span({className: 'shipping_date'}, "預計出貨日 " + this.props.estimated_shipping_date)
+          React.DOM.span({className: 'shipping_date'}, _("ESTIMATED_SHIPPING_DATE") + " " + this.props.estimated_shipping_date)
         ),
         React.DOM.section({className: "description"},
           React.DOM.br({}),
-          "請利用以下連結查看訂單情形。",
+          _("TRACK_ORDER"),
           React.DOM.br({}),
           React.DOM.a({href: "http://hypo.cc/"}, "hypo.cc")
         )

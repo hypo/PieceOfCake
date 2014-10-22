@@ -4,29 +4,29 @@ var CardsStore = function() {
   this.cards = {
     "card_login": {
       name: "card_login",
-      title: "登入",
+      title: _("TITLE.LOGING"),
       content: app.cards.LoginCard,
       noTitleBar: true,
       actions: []
     },
     "card_signup": {
       name: "card_signup",
-      title: "註冊",
+      title: _("TITLE.SIGNUP"),
       content: app.cards.SignupCard,
       actions: [
         {
-          text: "確認",
+          text: _("TITLE.SIGNUP.CONFIRM"),
           actions: ["signup"]
         }
       ]
     },
     "card_shipping": {
       name: "card_shipping",
-      title: "寄件資訊",
+      title: _("TITLE.SHIPPING"),
       content: app.cards.ShippingCard,
       actions: [
         {
-          text: "下一步",
+          text: _("TITLE.SHIPPING.NEXT"),
           actions: ["save-data", "push-card"],
           card: "card_confirmation",
           columns: ["name", "tel", "country", "city", "area", "zipcode", "addr"]
@@ -47,7 +47,7 @@ var CardsStore = function() {
     },
     "card_confirmation": {
       name: "card_confirmation",
-      title: "訂單明細",
+      title: _("TITLE.CONFIRMATION"),
       content: app.cards.ConfirmationCard,
       actions: [
         {
@@ -58,11 +58,11 @@ var CardsStore = function() {
     },
     "card_credit_card": {
       name: "card_credit_card",
-      title: "信用卡付款",
+      title: _("TITLE.CREDITCARD"),
       content: app.cards.CreditCardCard,
       actions: [
         {
-          text: "確認",
+          text: _("TITLE.CREDITCARD.CONFIRM"),
           actions: ["save-data", "order-cc"],
           columns: ["cardno", "expiry", "cvv"]
         }
@@ -70,11 +70,11 @@ var CardsStore = function() {
     },
     "card_done": {
       name: "card_done",
-      title: "訂單成立",
+      title: _("TITLE.DONE"),
       content: app.cards.DoneCard,
       actions: [
         {
-          text: "完成",
+          text: _("TITLE.DONE.DONE"),
           actions: ["done"]
         }
       ],
@@ -82,7 +82,7 @@ var CardsStore = function() {
     },
     "not_found": {
       name: "not_found",
-      title: "找不到卡片",
+      title: _("TITLE.NOT_FOUND"),
       content: app.cards.EmptyCard,
       actions: []
     }

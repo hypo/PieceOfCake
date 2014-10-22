@@ -8,12 +8,12 @@ window.app.cards.ShippingCard = React.createClass({
       React.DOM.div({className: 'content card_shipping'},
         React.DOM.section({},
           React.DOM.div({className: 'field'},
-            React.DOM.input({type: 'text', name: 'name', placeholder: '收件人姓名', defaultValue: this.props.name})
+            React.DOM.input({type: 'text', name: 'name', placeholder: _('RECEIVER'), defaultValue: this.props.name})
           )
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field'},
-            React.DOM.input({type: 'text', name: 'tel', placeholder: '收件人電話', defaultValue: this.props.tel})
+            React.DOM.input({type: 'text', name: 'tel', placeholder: _('RECEIVER_PHONE'), defaultValue: this.props.tel})
           )
         ),
         React.DOM.section({},
@@ -33,20 +33,20 @@ window.app.cards.ShippingCard = React.createClass({
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field'},
-            React.DOM.input({type: 'text', name: 'city', placeholder: '城市', defaultValue: this.props.city})
+            React.DOM.input({type: 'text', name: 'city', placeholder: _('CITY'), defaultValue: this.props.city})
           )
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field half'},
-            React.DOM.input({type: 'text', className: 'half', name: 'area', placeholder: '區', defaultValue: this.props.area})
+            React.DOM.input({type: 'text', className: 'half', name: 'area', placeholder: _('AREA'), defaultValue: this.props.area})
           ),
           React.DOM.div({className: 'field half'},
-            React.DOM.input({type: 'number', className: 'half', name: 'zipcode', placeholder: '郵遞區號', defaultValue: this.props.zipcode})
+            React.DOM.input({type: 'number', className: 'half', name: 'zipcode', placeholder: _('郵遞區號'), defaultValue: this.props.zipcode})
           )
         ),
         React.DOM.section({},
           React.DOM.div({className: 'field'},
-            React.DOM.textarea({name: 'addr', rows: 5, placeholder: '地址', defaultValue: this.props.addr})
+            React.DOM.textarea({name: 'addr', rows: 5, placeholder: _('ADDRESS'), defaultValue: this.props.addr})
           )
         )
       )

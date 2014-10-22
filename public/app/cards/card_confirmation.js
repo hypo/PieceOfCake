@@ -9,14 +9,14 @@ window.app.cards.ConfirmationCard = React.createClass({
   },
   useCoupon: function () {
     var couponCode = this.refs.coupon_input.getDOMNode().value;
-    app.CardStack.flashError("確認 Coupon 中...");
+    app.CardStack.flashError(_("COUPON_CONFIRMING"));
     getXHR("/api/coupon/" + couponCode, function(xhr) {
       if (xhr.status != 200)
-        return app.CardStack.flashError("通訊失敗。請稍後再試");
+        return app.CardStack.flashError(_("TRY_AGAIN"));
 
       var data = JSON.parse(xhr.responseText);
       if (!data.id || !data.can_redeem)
-        return app.CardStack.flashError("此 Coupon 已失效或不存在。");
+        return app.CardStack.flashError(_("COUPON_INVALID"));
 
       app.CardInfoStore.setCoupon(data);
       app.CardStack.forceRender();
@@ -70,7 +70,7 @@ window.app.cards.ConfirmationCard = React.createClass({
               ),
               React.DOM.tr({},
                 React.DOM.td({className: 'item'},
-                  'Shipping'
+                  _('SHIPPING')
                 ),
                 React.DOM.td({className: 'item_detail'},
                   this.props.price.shipping + ' NTD'
@@ -87,7 +87,7 @@ window.app.cards.ConfirmationCard = React.createClass({
               React.DOM.tr({},
                 this.props.coupon.id ?
                   React.DOM.td({className: 'item'},
-                    'Discount'
+                    _('DISCOUNT')
                   ) : (undefined),
                 this.props.coupon.id ?
                   React.DOM.td({className: 'item_detail'},
@@ -99,7 +99,7 @@ window.app.cards.ConfirmationCard = React.createClass({
               ),
               React.DOM.tr({},
                 React.DOM.td({className: 'item'},
-                  'Total'
+                  _('TOTAL')
                 ),
                 React.DOM.td({className: 'item_detail'},
                   this.props.price.total + ' NTD'
@@ -114,16 +114,16 @@ window.app.cards.ConfirmationCard = React.createClass({
               !this.props.coupon.code ? (
                 React.DOM.div({},
                   React.DOM.div({className: 'coupon_overlay', ref: 'coupon_button', onClick: this.enableCoupon},
-                    React.DOM.button({}, '輸入 Coupon Code')
+                    React.DOM.button({}, _('INPUT_COUPON'))
                   ),
                   React.DOM.div({className: 'coupon_input'},
                     React.DOM.input({type: 'text', className: 'coupon', ref: 'coupon_input'}),
-                    React.DOM.button({className: 'use_coupon', onClick: this.useCoupon}, '確認')
+                    React.DOM.button({className: 'use_coupon', onClick: this.useCoupon}, _('COUPON_CONFIRM'))
                   )
                 )
               ) : (
                 React.DOM.div({className: 'coupon_overlay', onClick: this.cancelCoupon},
-                  React.DOM.button({className: 'nofloat'}, '已使用：' + this.props.coupon.code)
+                  React.DOM.button({className: 'nofloat'}, _('COUPON_USE') + this.props.coupon.code)
                 )
               )
             )
@@ -134,7 +134,7 @@ window.app.cards.ConfirmationCard = React.createClass({
             React.DOM.table({},
               React.DOM.tr({},
                 React.DOM.td({className: 'item'},
-                  '預計出貨日'
+                  _('ESTIMATED_SHIPPING_DATE')
                 ),
                 React.DOM.td({className: 'item_detail'},
                   this.props.estimated_shipping_date
