@@ -55,7 +55,7 @@ CardInfoStore.prototype._addPricingInfo = function(data) {
       d['price']['total'] -= this.coupon.discount_amount;
     }
   }
-
+  d['price']['total'] = Math.max(0, d['price']['total']); // make sure it's non-negative.
   return d;
 }
 

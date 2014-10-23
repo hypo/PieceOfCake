@@ -85,7 +85,7 @@ import scala.slick.driver.PostgresDriver.simple._
         LiteOrderFromParams(request, userId, orderToken, pricingStrategy, coupon) map { order =>
           liteClient.createOrder(order) map {
             case Some(OrderResponse("ok", _, Some(order))) =>
-              Ok(orderOkResponse(order.id.get)).addingToSession(
+              Ok(orderOkResponse(order.id.get, order.total)).addingToSession(
                 "order_id" -> order.id.get.toString
               )
             case _ => Ok(orderFailResponse)
@@ -186,9 +186,9 @@ object APIControllerHelper {
     )
   )
 
-  def orderOkResponse(orderId: Int) = Json.obj(
+  def orderOkResponse(orderId: Int, total: Int) = Json.obj(
     "actions" -> Json.arr("push-data", "push-card"),
-    "card"    -> "card_credit_card",
+    "card"    -> (if (total <= 0) "card_done" else "card_credit_card"),
     "changes" -> Json.arr(
       Json.arr("order_id", orderId)
     )
