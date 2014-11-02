@@ -54,6 +54,7 @@ object ModelUtils {
       fullname = name, phone = tel,
       city = city, state = area,
       postcode = zipcode, address = addr,
+      country_id = country.toInt,
       token = orderToken,
       coupon_id = if (coupon.id < 0) None else Some(coupon.id)
     )
