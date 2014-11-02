@@ -16,7 +16,7 @@ object ApplicationBuild extends Build {
       "com.typesafe.play" %% "play-slick" % "0.8.0",
       "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
       "org.apache.pdfbox" % "pdfbox" % "1.8.6",
-      "org.pac4j" % "play-pac4j_scala2.11" % "1.3.0-SNAPSHOT",
+      "org.pac4j" % "play-pac4j_scala2.11" % "1.3.0",
       "org.pac4j" % "pac4j-oauth" % "1.5.1"
     )
 
@@ -27,7 +27,7 @@ object ApplicationBuild extends Build {
         "Typesafe Repo" at "http://repo.typesafe.com/typesafe/repo/",
         "Sonatype snapshots repository" at "https://oss.sonatype.org/content/repositories/snapshots/"
       ),
-      scalaVersion := "2.11.2",
+      scalaVersion := "2.11.4",
       libraryDependencies ++= appDependencies,
       scalacOptions ++= Seq("-deprecation", "-feature", "-deprecation")
     )
