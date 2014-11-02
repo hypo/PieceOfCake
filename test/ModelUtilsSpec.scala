@@ -24,7 +24,7 @@ class ModelUtilsSpec extends Specification {
         "frame_qty" -> "10"
       )
 
-      val order = LiteOrderFromParams(req, 0, "token", PiecesPricingStrategy.pricingStrategyFor(Some(5)), LiteCoupon(can_redeem = false))
+      val order = LiteOrderFromParams(req, 0, "token", PiecesPricingStrategy.pricingStrategyFor(Some(11)), LiteCoupon(can_redeem = false))
       order.isDefined must equalTo(true)
       order.get.fullname must equalTo("1")
       order.get.email must equalTo("2")
@@ -34,6 +34,7 @@ class ModelUtilsSpec extends Specification {
       order.get.city must equalTo("6")
       order.get.postcode must equalTo("7")
       order.get.address must equalTo("8")
+      order.get.number_of_pages must equalTo("11")
     }
 
   }

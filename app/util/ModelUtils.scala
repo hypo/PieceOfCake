@@ -44,12 +44,13 @@ object ModelUtils {
       city <- params.get("city");
       zipcode <- params.get("zipcode");
       addr <- params.get("addr");
+      numberOfPages <- pricingStrategy.pieces_qty;
       total <- pricingStrategy.copy(frame_qty = params.get("frame_qty").map(_.toInt)).total;
       totalAfterDiscount = coupon.discountedPrice(total)
     } yield LiteOrder(
       user_id = userId,
       total = totalAfterDiscount,
-      number_of_pages = 1,
+      number_of_pages = numberOfPages,
       email = email,
       fullname = name, phone = tel,
       city = city, state = area,
