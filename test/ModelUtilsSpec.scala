@@ -34,7 +34,7 @@ class ModelUtilsSpec extends Specification {
       order.get.city must equalTo("6")
       order.get.postcode must equalTo("7")
       order.get.address must equalTo("8")
-      order.get.number_of_pages must equalTo("11")
+      order.get.number_of_pages must equalTo(11)
     }
 
   }
