@@ -44,7 +44,7 @@ _.setTranslation({
     "NAME": "Name",
     "TEL": "Phone",
     "EMAIL": "Email",
-    "EMAIL_EXPLANATION": "We’ll send you a mail to confirm.",
+    "EMAIL_EXPLANATION": "",
     "PASSWORD": "Password",
     "PASSWORD_CONFIRM": "Confirm Password",
 
@@ -64,6 +64,11 @@ _.setTranslation({
     /* Action */
     "LOGIN_ERROR": "Login error. Try later.",
     "PASSWORD_NOT_MATCH": "Wrong password twice. Try later.",
+    "ORDER_ERROR": "Order error.",
     "SIGNUP_ERROR": "Sign up error. Try later.",
     "GENERAL_ERROR": "Connection failed. Try later.",
+    "SYSTEM_ERROR": "Unknow error. Try later.",
+    "MAKE_SURE_FIELDS_ARE_FILLED": "Make sure all fields are filled.",
+    "PAYMENT_ERROR_CHECK_CARD_INFO": "Payment failure - Check the credit card info",
+    "CANNOT_IDENTIFY_CARD_INFO": "Cannot identify the credit card"
 });

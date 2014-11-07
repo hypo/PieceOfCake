@@ -41,7 +41,7 @@ window.app.cards.ShippingCard = React.createClass({
             React.DOM.input({type: 'text', className: 'half', name: 'area', placeholder: _('AREA'), defaultValue: this.props.area})
           ),
           React.DOM.div({className: 'field half'},
-            React.DOM.input({type: 'number', className: 'half', name: 'zipcode', placeholder: _('郵遞區號'), defaultValue: this.props.zipcode})
+            React.DOM.input({type: 'number', className: 'half', name: 'zipcode', placeholder: _('POSTAL_CODE'), defaultValue: this.props.zipcode})
           )
         ),
         React.DOM.section({},

@@ -40,7 +40,7 @@ _.setTranslation({
     "NAME": "氏名",
     "TEL": "電話番号",
     "EMAIL": "メールアドレス",
-    "EMAIL_EXPLANATION": "確認のEメールを送信します",
+    "EMAIL_EXPLANATION": "",
     "PASSWORD": "パスワード",
     "PASSWORD_CONFIRM": "パスワード再入力",
     /* App */
@@ -58,6 +58,11 @@ _.setTranslation({
     /* Action */
     "LOGIN_ERROR": "エラーが発生しました。後でもう一度お試しください",
     "PASSWORD_NOT_MATCH": "パスワード２回間違えました。後で再度入力してください",
+    "ORDER_ERROR": "エラーが発生しました",
     "SIGNUP_ERROR": "エラーが発生しました。後でもう一度お試しください",
     "GENERAL_ERROR": "エラーが発生しました。後でもう一度お試しください",
+    "SYSTEM_ERROR": "エラーが発生しました",
+    "MAKE_SURE_FIELDS_ARE_FILLED": "Make sure all fields are filled.",
+    "PAYMENT_ERROR_CHECK_CARD_INFO": "Payment failure - Check the credit card info",
+    "CANNOT_IDENTIFY_CARD_INFO": "Cannot identify the credit card"
 });

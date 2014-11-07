@@ -51,7 +51,7 @@ var CardsStore = function() {
       content: app.cards.ConfirmationCard,
       actions: [
         {
-          text: "信用卡付款",
+          text: _("TITLE.CREDITCARD"),
           actions: ["create-order"]
         }
       ]

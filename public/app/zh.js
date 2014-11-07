@@ -44,7 +44,7 @@ _.setTranslation({
     "NAME": "姓名",
     "TEL": "電話",
     "EMAIL": "信箱",
-    "EMAIL_EXPLANATION": "我們會寄成功訊息到您的信箱",
+    "EMAIL_EXPLANATION": "",
     "PASSWORD": "密碼",
     "PASSWORD_CONFIRM": "確認密碼",
 
@@ -62,8 +62,13 @@ _.setTranslation({
     "TITLE.NOT_FOUND": "找不到卡片",
 
     /* Action */
-    "LOGIN_ERROR": "登入錯誤，請稍候再試",
+    "LOGIN_ERROR": "登入錯誤，請檢查密碼",
     "PASSWORD_NOT_MATCH": "密碼兩次輸入不符，請修正後再試",
+    "ORDER_ERROR": "下單失敗，請稍候再試",
     "SIGNUP_ERROR": "註冊錯誤，請稍候再試",
     "GENERAL_ERROR": "通訊失敗。請稍後再試",
+    "SYSTEM_ERROR": "系統錯誤，請稍候再試",
+    "MAKE_SURE_FIELDS_ARE_FILLED": "請確認欄位皆已填寫。",
+    "PAYMENT_ERROR_CHECK_CARD_INFO": "刷卡失敗，請檢查信用卡資訊。",
+    "CANNOT_IDENTIFY_CARD_INFO": "信用卡資訊無法識別。"
 });

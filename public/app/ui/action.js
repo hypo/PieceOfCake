@@ -77,7 +77,7 @@ app.handleAction = function(data) {
         app.CardInfoStore.update(this.changes);
         break;
       case "flash-error":
-        app.CardStack.flashError(this.error);
+        app.CardStack.flashError(_(this.error));
         break;
       case "create-order":
         var data = app.CardInfoStore.getData();

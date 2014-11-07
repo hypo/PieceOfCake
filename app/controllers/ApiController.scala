@@ -58,7 +58,7 @@ import scala.slick.driver.PostgresDriver.simple._
   def queryCoupon(couponCode: String) = Action.async { implicit request =>
     liteClient.coupon(couponCode) map {
       case Some(QueryCouponResponse("ok", "successful", coupon)) => Ok(Json.toJson(coupon.get))
-      case _ => Ok(mkError("系統錯誤，請稍候再試"))
+      case _ => Ok(mkError("SYSTEM_ERROR"))
     }
   }
 
@@ -70,7 +70,7 @@ import scala.slick.driver.PostgresDriver.simple._
         )
         case _ => Ok(signupFailResponse)
       }
-    } getOrElse(errorResponse("請確認欄位皆已填寫。"))
+    } getOrElse(errorResponse("MAKE_SURE_FIELDS_ARE_FILLED"))
   }
 
   def createOrder() = Action.async { implicit request =>
@@ -94,9 +94,9 @@ import scala.slick.driver.PostgresDriver.simple._
               )
             case _ => Ok(orderFailResponse)
           }
-        } getOrElse(errorResponse("請確認欄位皆已填寫。"))
+        } getOrElse(errorResponse("MAKE_SURE_FIELDS_ARE_FILLED"))
       }
-    } getOrElse(errorResponse("請確認欄位皆已填寫。"))
+    } getOrElse(errorResponse("MAKE_SURE_FIELDS_ARE_FILLED"))
   }
 
   def creditCard() = Action.async { request =>
@@ -109,15 +109,15 @@ import scala.slick.driver.PostgresDriver.simple._
           LiteClient.mkCard(card_no, expiry, cvv) match {
             case Some(creditCard) => liteClient.creditCard(orderId.toInt, creditCard) flatMap {
               case Some(CreditCardResponse("ok", _)) => Future { Ok(creditCardOkResponse) }
-              case _ => errorResponse("刷卡失敗，請檢查信用卡資訊。")
+              case _ => errorResponse("PAYMENT_ERROR_CHECK_CARD_INFO")
             }
-            case None => errorResponse("信用卡資訊無法識別。")
+            case None => errorResponse("CANNOT_IDENTIFY_CARD_INFO")
           }
         } else {
-          errorResponse("請確認欄位皆已填寫。")
+          errorResponse("MAKE_SURE_FIELDS_ARE_FILLED")
         }
       }
-      case None => errorResponse("系統錯誤，請稍候再試。")
+      case None => errorResponse("SYSTEM_ERROR")
     }
   }
 
@@ -203,7 +203,7 @@ object APIControllerHelper {
     "card" -> "card_done"
   )
 
-  val loginFailResponse = mkError("登入失敗，請檢查密碼")
-  val signupFailResponse = mkError("註冊失敗，請稍候再試")
-  val orderFailResponse = mkError("下單失敗，請稍候再試")
+  val loginFailResponse = mkError("LOGIN_ERROR")
+  val signupFailResponse = mkError("SIGNUP_ERROR")
+  val orderFailResponse = mkError("ORDER_ERROR")
 }
