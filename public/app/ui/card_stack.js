@@ -55,6 +55,10 @@ CardStack.prototype.forceRender = function(callback) {
     window.app.appInstance = React.renderComponent(app.App(this._preparePropsUpdate()), document.body, callback);
 }
 
+CardStack.prototype.setShowSpinner = function(spinner) {
+  app.appInstance.setProps({showSpinner: spinner});
+}
+
 CardStack.prototype._preparePropsUpdate = function() {
   var obj = {};
   var card = app.CardsStore.getCard(this.stack[this.stack.length - 1]);
