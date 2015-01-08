@@ -108,7 +108,11 @@ endpdf file:///tmp/piece.pdf
         }
         val rectWidth = 13.0.cm
         val rectHeight = 19.0.cm
-        contentStream.addRect(((pageWidth - rectWidth) / 2).toFloat, ((pageHeight - rectHeight) / 2).toFloat, rectWidth.toFloat, rectHeight.toFloat)
+        val extraWidth = pageWidth + 2.0.cm
+        val extraHeight = pageHeight + 2.0.cm
+        contentStream.addRect(((pageWidth - extraWidth) / 2).toFloat, ((pageHeight - rectHeight) / 2).toFloat, extraWidth.toFloat, rectHeight.toFloat)
+        contentStream.stroke()
+        contentStream.addRect(((pageWidth - rectWidth) / 2).toFloat, ((pageHeight - extraHeight) / 2).toFloat, rectWidth.toFloat, extraHeight.toFloat)
         contentStream.stroke()
         contentStream.close()
         page
