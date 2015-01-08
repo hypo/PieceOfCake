@@ -7,6 +7,9 @@ window.app.App = React.createClass({
       app.CardViewport({card: this.props.card})
     ];
 
+    if (this.props.showSpinner)
+      children.push(app.BlockerSpinner());
+
     if (this.props.showTitleBar)
       children.push(app.HeaderBar({title: this.props.title, showBackButton: this.props.showBackButton}));
 

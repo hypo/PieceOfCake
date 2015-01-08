@@ -38,7 +38,11 @@ app.handleAction = function(data) {
     switch (action) {
       case "login":
         var email = getValueByName('email'), pw = getValueByName('password');
-        postXHR("/api/login", {email: email, password: pw}, function(xhr){
+
+        app.CardStack.setShowSpinner(true);
+        postXHR("/api/login", {email: email, password: pw}, function(xhr) {
+          app.CardStack.setShowSpinner(false);
+
           if (xhr.status != 200)
             return app.CardStack.flashError(_("LOGIN_ERROR"));
 
@@ -56,7 +60,10 @@ app.handleAction = function(data) {
           registerData[k] = getValueByName(k);
         });
 
-        postXHR("/api/signup", registerData, function(xhr){
+        app.CardStack.setShowSpinner(true);
+        postXHR("/api/signup", registerData, function(xhr) {
+          app.CardStack.setShowSpinner(false);
+
           if (xhr.status != 200)
             return app.CardStack.flashError(_("SIGNUP_ERROR"));
 
@@ -82,6 +89,7 @@ app.handleAction = function(data) {
       case "create-order":
         var data = app.CardInfoStore.getData();
 
+        app.CardStack.setShowSpinner(true);
         postXHR("/api/create_order", {
           name: data.name,
           email: data.email,
@@ -94,6 +102,7 @@ app.handleAction = function(data) {
           frame_qty: data.frame_qty,
           coupon_code: data.coupon ? data.coupon.code : null
         }, function(xhr) {
+          app.CardStack.setShowSpinner(false);
           if (xhr.status != 200)
             return app.CardStack.flashError(_("GENERAL_ERROR"));
 
@@ -104,12 +113,15 @@ app.handleAction = function(data) {
       case "order-cc":
         var data = app.CardInfoStore.getData();
 
+        app.CardStack.setShowSpinner(true);
         postXHR("/api/credit_card", {
           order_id: data.order_id,
           card_no: data.cardno,
           expiry: data.expiry,
           cvv: data.cvv
         }, function(xhr) {
+          app.CardStack.setShowSpinner(false);
+
           if (xhr.status != 200)
             return app.CardStack.flashError(_("GENERAL_ERROR"));
 
